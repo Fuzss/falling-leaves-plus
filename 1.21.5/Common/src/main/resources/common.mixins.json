@@ -6,6 +6,8 @@
   "mixins": [
   ],
   "client": [
+    "client.ClientLevelMixin",
+    "client.LeavesBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -11,5 +11,8 @@ accessible	field	net/minecraft/client/particle/FallingLeavesParticle	flowAway	Z
 accessible	field	net/minecraft/client/particle/FallingLeavesParticle	xaFlowScale	D
 accessible	field	net/minecraft/client/particle/FallingLeavesParticle	zaFlowScale	D
 accessible	field	net/minecraft/client/particle/FallingLeavesParticle	swirlPeriod	D
+accessible	field	net/minecraft/client/particle/Particle	MAXIMUM_COLLISION_VELOCITY_SQUARED  D
 accessible	field	net/minecraft/client/particle/Particle	stoppedByCollision	Z
 accessible	method	net/minecraft/world/entity/Entity   collideWithShapes   (Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/AABB;Ljava/util/List;)Lnet/minecraft/world/phys/Vec3;
+accessible	class	net/minecraft/client/particle/ParticleEngine$MutableSpriteSet
+accessible  method	net/minecraft/client/particle/ParticleEngine$MutableSpriteSet	<init>	()V
