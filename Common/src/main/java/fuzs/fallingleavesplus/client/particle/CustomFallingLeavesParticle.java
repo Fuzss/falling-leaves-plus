@@ -1,8 +1,9 @@
 package fuzs.fallingleavesplus.client.particle;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import fuzs.fallingleavesplus.client.particle.settings.AdditionalSettings;
 import fuzs.fallingleavesplus.client.particle.settings.DecayMode;
-import fuzs.fallingleavesplus.client.particle.settings.ParticleSettings;
+import fuzs.fallingleavesplus.client.particle.settings.VanillaSettings;
 import fuzs.fallingleavesplus.client.world.phys.shapes.ParticleCollisionHelper;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -19,25 +20,27 @@ public class CustomFallingLeavesParticle extends FallingLeavesParticle {
     private final DecayMode decayMode;
     public final boolean collideWithVisualShape;
 
-    public CustomFallingLeavesParticle(ClientLevel level, double x, double y, double z, SpriteSet spriteSet, ParticleSettings particleSettings) {
+    public CustomFallingLeavesParticle(ClientLevel level, double x, double y, double z, SpriteSet spriteSet, VanillaSettings vanillaSettings, AdditionalSettings additionalSettings) {
         super(level,
                 x,
                 y,
                 z,
                 spriteSet,
-                particleSettings.getBehavior().getGravityMultiplier(),
-                particleSettings.getEnvironment().getWindStrength(level),
-                particleSettings.getBehavior().getSwirlAround(),
-                particleSettings.getBehavior().getFlowAway(),
-                particleSettings.getBehavior().getLeafSize(),
-                particleSettings.getBehavior().getFallingSpeed());
-        this.lifetime = particleSettings.getBehavior().getLifetimeInSeconds() * 20;
-        this.xaFlowScale = Math.cos(Math.toRadians(
-                this.particleRandom * 60.0F + particleSettings.getEnvironment().getWindDirection())) * this.windBig;
-        this.zaFlowScale = Math.sin(Math.toRadians(
-                this.particleRandom * 60.0F + particleSettings.getEnvironment().getWindDirection())) * this.windBig;
-        this.collideWithVisualShape = particleSettings.getBehavior().getCollideWithVisualShapes();
-        this.decayMode = particleSettings.getBehavior().getDecayOnGroundMode();
+                vanillaSettings.getGravityMultiplier(),
+                vanillaSettings.getWindStrength(level, additionalSettings),
+                vanillaSettings.getSwirlAround(),
+                vanillaSettings.getFlowAway(),
+                vanillaSettings.getLeafSize(),
+                vanillaSettings.getFallingSpeed());
+        this.lifetime = additionalSettings.getLifetimeInSeconds() * 20;
+        this.xaFlowScale =
+                Math.cos(Math.toRadians(this.particleRandom * 60.0F + additionalSettings.getWindDirection())) *
+                        this.windBig;
+        this.zaFlowScale =
+                Math.sin(Math.toRadians(this.particleRandom * 60.0F + additionalSettings.getWindDirection())) *
+                        this.windBig;
+        this.collideWithVisualShape = additionalSettings.getCollideWithVisualShapes();
+        this.decayMode = additionalSettings.getDecayOnGroundMode();
     }
 
     @Override

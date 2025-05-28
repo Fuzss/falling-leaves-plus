@@ -7,20 +7,18 @@ import fuzs.fallingleavesplus.FallingLeavesPlus;
 import fuzs.fallingleavesplus.client.particle.CustomFallingLeavesParticle;
 import fuzs.fallingleavesplus.client.particle.TerrainFallingLeavesParticle;
 import fuzs.fallingleavesplus.config.ClientConfig;
+import fuzs.fallingleavesplus.core.particles.FallingLeavesParticleOption;
 import fuzs.puzzleslib.api.core.v1.utility.ResourceLocationHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ARGB;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -29,32 +27,42 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 
-public record ParticleSettings(Either<Block, Optional<List<ResourceLocation>>> texture,
-                               Optional<Boolean> tinted,
+public record ParticleSettings(Optional<List<ResourceLocation>> textures,
+                               Either<Integer, Optional<Boolean>> tint,
                                Optional<Float> leafParticleChance,
                                Optional<Boolean> spawnSnowFlakes,
-                               Optional<BehavioralSettings> behavior,
-                               Optional<EnvironmentalSettings> environment) {
-    public static final Codec<ParticleSettings> CODEC = RecordCodecBuilder.create(instance -> instance.group(Codec.mapEither(
-                            BuiltInRegistries.BLOCK.byNameCodec().fieldOf("block"),
-                            ResourceLocation.CODEC.listOf().optionalFieldOf("textures")).forGetter(ParticleSettings::texture),
-                    Codec.BOOL.lenientOptionalFieldOf("tinted").forGetter(ParticleSettings::tinted),
+                               VanillaSettings vanillaSettings,
+                               AdditionalSettings additionalSettings) {
+    public static final Codec<ParticleSettings> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+                    ResourceLocation.CODEC.listOf().optionalFieldOf("textures").forGetter(ParticleSettings::textures),
+                    Codec.mapEither(ExtraCodecs.ARGB_COLOR_CODEC.fieldOf("tint_color"),
+                            Codec.BOOL.lenientOptionalFieldOf("tinted")).forGetter(ParticleSettings::tint),
                     Codec.floatRange(0.0F, 1.0F)
                             .lenientOptionalFieldOf("leaf_particle_chance")
                             .forGetter(ParticleSettings::leafParticleChance),
                     Codec.BOOL.lenientOptionalFieldOf("spawn_snow_flakes").forGetter(ParticleSettings::spawnSnowFlakes),
-                    BehavioralSettings.CODEC.lenientOptionalFieldOf("behavior").forGetter(ParticleSettings::behavior),
-                    EnvironmentalSettings.CODEC.lenientOptionalFieldOf("environment").forGetter(ParticleSettings::environment))
+                    VanillaSettings.CODEC.forGetter(ParticleSettings::vanillaSettings),
+                    AdditionalSettings.CODEC.forGetter(ParticleSettings::additionalSettings))
             .apply(instance, ParticleSettings::new));
-    public static final ParticleSettings DEFAULT = new ParticleSettings(Either.right(Optional.empty()),
-            Optional.empty(),
-            Optional.empty(),
-            Optional.empty(),
+    public static final ParticleSettings DEFAULT = new ParticleSettings(Optional.empty(),
+            Either.right(Optional.empty()),
             Optional.empty(),
             Optional.empty());
-    static final List<ResourceLocation> DEFAULT_LEAVES_TEXTURES = IntStream.range(0, 2)
-            .mapToObj((int i) -> ResourceLocationHelper.withDefaultNamespace("leaf_" + i))
-            .toList();
+    static final List<ResourceLocation> DEFAULT_LEAVES_TEXTURES = createTextureLocations(ResourceLocationHelper.withDefaultNamespace(
+            "leaf"));
+
+    public ParticleSettings(List<ResourceLocation> textures, float leafParticleChance, VanillaSettings vanillaSettings) {
+        this(Optional.of(textures),
+                Either.right(Optional.of(Boolean.FALSE)),
+                Optional.of(leafParticleChance),
+                Optional.of(Boolean.TRUE),
+                vanillaSettings,
+                AdditionalSettings.DEFAULT);
+    }
+
+    public ParticleSettings(Optional<List<ResourceLocation>> textures, Either<Integer, Optional<Boolean>> tint, Optional<Float> leafParticleChance, Optional<Boolean> spawnSnowFlakes) {
+        this(textures, tint, leafParticleChance, spawnSnowFlakes, VanillaSettings.DEFAULT, AdditionalSettings.DEFAULT);
+    }
 
     public float getLeafParticleChance() {
         return this.leafParticleChance.orElseGet(() -> (float) FallingLeavesPlus.CONFIG.get(ClientConfig.class).leafParticleChance);
@@ -62,27 +70,27 @@ public record ParticleSettings(Either<Block, Optional<List<ResourceLocation>>> t
 
     public float getLeafParticleChanceWithWeather(Level level) {
         return this.getLeafParticleChance() *
-                this.getEnvironment().getWeatherMultiplier(level.isRaining(), level.isThundering());
+                this.additionalSettings().getWeatherMultiplier(level.isRaining(), level.isThundering());
     }
 
     public List<ResourceLocation> getLeavesTextures() {
-        return this.texture.right().flatMap(Function.identity()).orElse(DEFAULT_LEAVES_TEXTURES);
+        return this.textures.orElse(DEFAULT_LEAVES_TEXTURES);
     }
 
     public boolean isTinted() {
-        return this.tinted.orElse(Boolean.TRUE);
+        return this.tint.right().flatMap(Function.identity()).orElse(Boolean.TRUE);
+    }
+
+    public int pickTintColor(int tintColor) {
+        return this.tint.left().orElse(tintColor);
     }
 
     public boolean getSpawnSnowFlakes() {
         return this.spawnSnowFlakes.orElseGet(() -> FallingLeavesPlus.CONFIG.get(ClientConfig.class).spawnSnowFlakes);
     }
 
-    public BehavioralSettings getBehavior() {
-        return this.behavior.orElse(BehavioralSettings.DEFAULT);
-    }
-
-    public EnvironmentalSettings getEnvironment() {
-        return this.environment.orElse(EnvironmentalSettings.DEFAULT);
+    public static SpriteSet createDefaultSpriteSet() {
+        return createSpriteSet(DEFAULT_LEAVES_TEXTURES);
     }
 
     public static SpriteSet createSpriteSet(List<ResourceLocation> textureLocations) {
@@ -95,7 +103,13 @@ public record ParticleSettings(Either<Block, Optional<List<ResourceLocation>>> t
         return spriteSet;
     }
 
-    public static class ParticleProviderImpl implements ParticleProvider<BlockParticleOption> {
+    public static List<ResourceLocation> createTextureLocations(ResourceLocation resourceLocation) {
+        return IntStream.range(0, 12)
+                .mapToObj((int i) -> resourceLocation.withPath((String s) -> s + "_" + i))
+                .toList();
+    }
+
+    public static class ParticleProviderImpl implements ParticleProvider<FallingLeavesParticleOption> {
         private final SpriteSet spriteSet;
 
         public ParticleProviderImpl(SpriteSet spriteSet) {
@@ -104,36 +118,44 @@ public record ParticleSettings(Either<Block, Optional<List<ResourceLocation>>> t
 
         @Nullable
         @Override
-        public Particle createParticle(BlockParticleOption blockParticleOption, ClientLevel clientLevel, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            if (blockParticleOption.getState().shouldSpawnTerrainParticles()) {
-                ParticleSettings particleSettings = FallingLeavesManager.getParticleSettings(blockParticleOption.getState());
-                Optional<BlockState> optional = particleSettings.texture().left().map(Block::defaultBlockState);
-                SpriteSet spriteSet = createSpriteSet(particleSettings.getLeavesTextures());
+        public Particle createParticle(FallingLeavesParticleOption particleOptions, ClientLevel clientLevel, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            if (particleOptions.blockState().shouldSpawnTerrainParticles()) {
+                ParticleSettings particleSettings = FallingLeavesManager.getParticleSettings(particleOptions.blockState());
                 TextureSheetParticle particle;
-                if (optional.isPresent()) {
+                if (FallingLeavesPlus.CONFIG.get(ClientConfig.class).blockParticles) {
                     particle = new TerrainFallingLeavesParticle(clientLevel,
                             x,
                             y,
                             z,
-                            spriteSet,
-                            optional.get(),
-                            particleSettings);
+                            particleOptions.blockState(),
+                            particleSettings.vanillaSettings(),
+                            particleSettings.additionalSettings());
+                    if (!particleOptions.blockState().is(Blocks.SNOW)) {
+                        particle.rCol *= particleOptions.getRed();
+                        particle.gCol *= particleOptions.getGreen();
+                        particle.bCol *= particleOptions.getBlue();
+                    }
                 } else {
-                    particle = new CustomFallingLeavesParticle(clientLevel, x, y, z, spriteSet, particleSettings);
+                    particle = new CustomFallingLeavesParticle(clientLevel,
+                            x,
+                            y,
+                            z,
+                            createSpriteSet(particleSettings.getLeavesTextures()),
+                            particleSettings.vanillaSettings(),
+                            particleSettings.additionalSettings());
+                    if (particleOptions.blockState().is(Blocks.SNOW)) {
+                        // don't advance sprite based on age, just pick a random one
+                        particle.pickSprite(this.spriteSet);
+                        // copied from snowflake particle
+                        particle.setColor(0.923F, 0.964F, 0.999F);
+                    } else if (particleSettings.isTinted()) {
+                        int tintColor = particleSettings.pickTintColor(particleOptions.color());
+                        particle.rCol *= ARGB.redFloat(tintColor);
+                        particle.gCol *= ARGB.greenFloat(tintColor);
+                        particle.bCol *= ARGB.blueFloat(tintColor);
+                    }
                 }
-                BlockPos blockPos = BlockPos.containing(x, y, z);
-                BlockState blockState = clientLevel.getBlockState(blockPos.above());
-                if (blockState.is(Blocks.SNOW)) {
-                    particle.setSpriteFromAge(this.spriteSet);
-                    particle.setColor(0.923F, 0.964F, 0.999F);
-                } else if (particleSettings.isTinted()) {
-                    int blockColor = Minecraft.getInstance()
-                            .getBlockColors()
-                            .getColor(blockParticleOption.getState(), clientLevel, blockPos, 0);
-                    particle.rCol *= (blockColor >> 16 & 0xFF) / 255.0F;
-                    particle.gCol *= (blockColor >> 8 & 0xFF) / 255.0F;
-                    particle.bCol *= (blockColor & 0xFF) / 255.0F;
-                }
+
                 return particle;
             } else {
                 return null;

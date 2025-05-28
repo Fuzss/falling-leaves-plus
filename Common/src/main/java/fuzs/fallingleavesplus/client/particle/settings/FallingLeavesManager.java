@@ -1,10 +1,11 @@
 package fuzs.fallingleavesplus.client.particle.settings;
 
 import fuzs.fallingleavesplus.FallingLeavesPlus;
+import fuzs.fallingleavesplus.core.particles.FallingLeavesParticleOption;
 import fuzs.fallingleavesplus.init.ModRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.ResourceLocation;
@@ -16,6 +17,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
@@ -69,9 +71,11 @@ public final class FallingLeavesManager extends SimpleJsonResourceReloadListener
         if (!(randomSource.nextFloat() >= particleSettings.getLeafParticleChanceWithWeather(level))) {
             if (!Block.isFaceFull(level.getBlockState(blockPos.below()).getCollisionShape(level, blockPos.below()),
                     Direction.UP)) {
-                BlockParticleOption blockParticleOption = new BlockParticleOption(ModRegistry.FALLING_LEAVES_PARTICLE_TYPE.value(),
-                        blockState);
-                ParticleUtils.spawnParticleBelow(level, blockPos, randomSource, blockParticleOption);
+                ParticleOptions particleOptions = new FallingLeavesParticleOption(ModRegistry.FALLING_LEAVES_PARTICLE_TYPE.value(),
+                        particleSettings.getSpawnSnowFlakes() && level.getBlockState(blockPos.above()).is(Blocks.SNOW) ?
+                                Blocks.SNOW.defaultBlockState() : blockState,
+                        level.getClientLeafTintColor(blockPos));
+                ParticleUtils.spawnParticleBelow(level, blockPos, randomSource, particleOptions);
             }
         }
     }
