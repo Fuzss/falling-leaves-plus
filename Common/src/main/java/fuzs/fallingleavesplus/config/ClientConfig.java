@@ -13,18 +13,33 @@ import net.minecraft.world.level.block.Blocks;
 import java.util.List;
 
 public class ClientConfig implements ConfigCore {
+    static final String CATEGORY_GENERAL = "general";
+
     @Config
     public final BehaviorConfig behavior = new BehaviorConfig();
     @Config
     public final EnvironmentalConfig environment = new EnvironmentalConfig();
     @Config(
             name = "default_leave_blocks",
+            category = CATEGORY_GENERAL,
             description = {"Leaves blocks that will spawn leaf particles underneath.", ConfigDataSet.CONFIG_DESCRIPTION}
     )
     List<String> defaultLeaveBlocksRaw = KeyedValueProvider.tagAppender(Registries.BLOCK)
             .addTag(BlockTags.LEAVES)
             .remove(Blocks.CHERRY_LEAVES)
+            .remove(Blocks.PALE_OAK_LEAVES)
             .asStringList();
+    @Config(
+            category = CATEGORY_GENERAL,
+            description = "The chance for a leaf particle to spawn below a leaves block on every animation tick."
+    )
+    @Config.DoubleRange(min = 0.0, max = 1.0)
+    public double leafParticleChance = 0.01;
+    @Config(
+            category = CATEGORY_GENERAL,
+            description = "Spawn snow flakes below snow covered leaves instead of falling leaves."
+    )
+    public boolean spawnSnowFlakes = true;
 
     public ConfigDataSet<Block> defaultLeaveBlocks;
 
@@ -46,7 +61,7 @@ public class ClientConfig implements ConfigCore {
         public double leafSize = 2.0;
         @Config(description = "The speed at which leaf particles fall.")
         @Config.DoubleRange(min = 0.0)
-        public double fallingSpeed = 0.021;
+        public double initialFallingSpeed = 0.021;
         @Config(description = "Maximum time in seconds leaf particles may exist in the world.")
         @Config.IntRange(min = 0)
         public int lifetimeInSeconds = 15;

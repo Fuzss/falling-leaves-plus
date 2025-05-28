@@ -7,6 +7,7 @@ import fuzs.fallingleavesplus.client.world.phys.shapes.ParticleCollisionHelper;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.FallingLeavesParticle;
+import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
@@ -14,18 +15,16 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 
 public class CustomFallingLeavesParticle extends FallingLeavesParticle {
-    private static final double MAXIMUM_COLLISION_VELOCITY_SQUARED = Mth.square(100.0);
-
     private final LifetimeAlpha lifetimeAlpha = new LifetimeAlpha(1.0F, 0.0F, 0.95F, 1.0F);
     private final DecayMode decayMode;
     public final boolean collideWithVisualShape;
 
-    protected CustomFallingLeavesParticle(ClientLevel level, double x, double y, double z, SpriteSet sprites, ParticleSettings particleSettings) {
+    public CustomFallingLeavesParticle(ClientLevel level, double x, double y, double z, SpriteSet spriteSet, ParticleSettings particleSettings) {
         super(level,
                 x,
                 y,
                 z,
-                sprites,
+                spriteSet,
                 particleSettings.getBehavior().getGravityMultiplier(),
                 particleSettings.getEnvironment().getWindStrength(level),
                 particleSettings.getBehavior().getSwirlAround(),
@@ -39,6 +38,11 @@ public class CustomFallingLeavesParticle extends FallingLeavesParticle {
                 this.particleRandom * 60.0F + particleSettings.getEnvironment().getWindDirection())) * this.windBig;
         this.collideWithVisualShape = particleSettings.getBehavior().getCollideWithVisualShapes();
         this.decayMode = particleSettings.getBehavior().getDecayOnGroundMode();
+    }
+
+    @Override
+    public ParticleRenderType getRenderType() {
+        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
     }
 
     @Override
@@ -110,6 +114,7 @@ public class CustomFallingLeavesParticle extends FallingLeavesParticle {
 
     @Override
     public void move(double x, double y, double z) {
+        // copied from super, but with custom collisions, which take visual shape into account
         if (this.collideWithVisualShape) {
             if (!this.stoppedByCollision) {
                 double d = x;

@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import fuzs.fallingleavesplus.FallingLeavesPlus;
 import fuzs.fallingleavesplus.config.ClientConfig;
-import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.world.level.Level;
 
 import java.util.Optional;
 
@@ -45,11 +45,11 @@ public record EnvironmentalSettings(Optional<Float> rainAmplifier,
         return this.windDirection.orElseGet(() -> (float) FallingLeavesPlus.CONFIG.get(ClientConfig.class).environment.windDirection);
     }
 
-    public float getWindStrength(ClientLevel clientLevel) {
-        return this.getWindStrength() * this.getWeatherMultiplier(clientLevel.isRaining(), clientLevel.isThundering());
+    public float getWindStrength(Level level) {
+        return this.getWindStrength() * this.getWeatherMultiplier(level.isRaining(), level.isThundering());
     }
 
-    private float getWeatherMultiplier(boolean isRaining, boolean isThundering) {
+    public float getWeatherMultiplier(boolean isRaining, boolean isThundering) {
         return (isRaining ? this.getRainAmplifier() : 1.0F) * (isThundering ? this.getThunderstormAmplifier() : 1.0F);
     }
 }

@@ -11,7 +11,7 @@ public record BehavioralSettings(Optional<Float> gravityMultiplier,
                                  Optional<Boolean> swirlAround,
                                  Optional<Boolean> flowAway,
                                  Optional<Float> leafSize,
-                                 Optional<Float> fallingSpeed,
+                                 Optional<Float> initialFallingSpeed,
                                  Optional<Integer> lifetimeInSeconds,
                                  Optional<Boolean> collideWithVisualShapes,
                                  Optional<DecayMode> decayOnGroundMode) {
@@ -26,8 +26,8 @@ public record BehavioralSettings(Optional<Float> gravityMultiplier,
                     .lenientOptionalFieldOf("leaf_size")
                     .forGetter(BehavioralSettings::leafSize),
             Codec.floatRange(0.0F, Float.MAX_VALUE)
-                    .lenientOptionalFieldOf("falling_speed")
-                    .forGetter(BehavioralSettings::fallingSpeed),
+                    .lenientOptionalFieldOf("initial_falling_speed")
+                    .forGetter(BehavioralSettings::initialFallingSpeed),
             Codec.intRange(0, Integer.MAX_VALUE)
                     .lenientOptionalFieldOf("lifetime_in_seconds")
                     .forGetter(BehavioralSettings::lifetimeInSeconds),
@@ -61,7 +61,7 @@ public record BehavioralSettings(Optional<Float> gravityMultiplier,
     }
 
     public float getFallingSpeed() {
-        return this.fallingSpeed.orElseGet(() -> (float) FallingLeavesPlus.CONFIG.get(ClientConfig.class).behavior.fallingSpeed);
+        return this.initialFallingSpeed.orElseGet(() -> (float) FallingLeavesPlus.CONFIG.get(ClientConfig.class).behavior.initialFallingSpeed);
     }
 
     public int getLifetimeInSeconds() {
