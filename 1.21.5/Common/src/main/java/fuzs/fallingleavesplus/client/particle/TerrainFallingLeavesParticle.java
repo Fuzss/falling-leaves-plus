@@ -1,12 +1,14 @@
 package fuzs.fallingleavesplus.client.particle;
 
+import fuzs.fallingleavesplus.client.particle.settings.AdditionalSettings;
 import fuzs.fallingleavesplus.client.particle.settings.ParticleSettings;
+import fuzs.fallingleavesplus.client.particle.settings.VanillaSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class TerrainFallingLeavesParticle extends CustomFallingLeavesParticle {
@@ -14,13 +16,16 @@ public class TerrainFallingLeavesParticle extends CustomFallingLeavesParticle {
     private final float uo;
     private final float vo;
 
-    public TerrainFallingLeavesParticle(ClientLevel level, double x, double y, double z, SpriteSet spriteSet, BlockState blockState, ParticleSettings particleSettings) {
-        super(level, x, y, z, spriteSet, particleSettings);
+    public TerrainFallingLeavesParticle(ClientLevel level, double x, double y, double z, BlockState blockState, VanillaSettings vanillaSettings, AdditionalSettings additionalSettings) {
+        super(level, x, y, z, ParticleSettings.createDefaultSpriteSet(), vanillaSettings, additionalSettings);
         this.pos = BlockPos.containing(x, y, z);
         this.setSprite(Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(blockState));
         this.rCol = 0.6F;
         this.gCol = 0.6F;
         this.bCol = 0.6F;
+        if (blockState.is(Blocks.SNOW)) {
+            this.quadSize /= 2.0F;
+        }
         this.uo = this.random.nextFloat() * 3.0F;
         this.vo = this.random.nextFloat() * 3.0F;
     }
