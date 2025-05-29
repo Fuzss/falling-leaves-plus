@@ -1,6 +1,7 @@
 package fuzs.fallingleavesplus.client.particle.settings;
 
 import fuzs.fallingleavesplus.FallingLeavesPlus;
+import fuzs.fallingleavesplus.config.ClientConfig;
 import fuzs.fallingleavesplus.core.particles.FallingLeavesParticleOption;
 import fuzs.fallingleavesplus.init.ModRegistry;
 import net.minecraft.core.BlockPos;
@@ -17,7 +18,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
@@ -69,11 +69,14 @@ public final class FallingLeavesManager extends SimpleJsonResourceReloadListener
     public static void makeFallingLeavesParticles(Level level, BlockState blockState, BlockPos blockPos, RandomSource randomSource) {
         ParticleSettings particleSettings = getParticleSettings(blockState);
         if (!(randomSource.nextFloat() >= particleSettings.getLeafParticleChanceWithWeather(level))) {
-            if (!Block.isFaceFull(level.getBlockState(blockPos.below()).getCollisionShape(level, blockPos.below()),
-                    Direction.UP)) {
+            BlockState blockStateBelow = level.getBlockState(blockPos.below());
+            if (!Block.isFaceFull(blockStateBelow.getCollisionShape(level, blockPos.below()), Direction.UP)) {
+                BlockState blockStateAbove = level.getBlockState(blockPos.above());
                 ParticleOptions particleOptions = new FallingLeavesParticleOption(ModRegistry.FALLING_LEAVES_PARTICLE_TYPE.value(),
-                        particleSettings.getSpawnSnowFlakes() && level.getBlockState(blockPos.above()).is(Blocks.SNOW) ?
-                                Blocks.SNOW.defaultBlockState() : blockState,
+                        particleSettings.getSpawnSnowflakes() &&
+                                FallingLeavesPlus.CONFIG.get(ClientConfig.class).snowflakesSpawningBlocks.contains(
+                                        blockStateAbove.getBlock()) ? blockStateAbove.getBlock().defaultBlockState() :
+                                blockState,
                         level.getClientLeafTintColor(blockPos));
                 ParticleUtils.spawnParticleBelow(level, blockPos, randomSource, particleOptions);
             }

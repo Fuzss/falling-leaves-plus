@@ -18,6 +18,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class ModParticleSettingsProvider extends JsonCodecProvider<ParticleSettings> {
+    static final int AZALEA_LEAVES_COLOR = -9399763;
 
     public ModParticleSettingsProvider(DataProviderContext context) {
         this(context.getModId(), context.getPackOutput(), context.getRegistries());
@@ -39,8 +40,8 @@ public class ModParticleSettingsProvider extends JsonCodecProvider<ParticleSetti
         this.block(Blocks.JUNGLE_LEAVES, "jungle");
         this.block(Blocks.ACACIA_LEAVES, "acacia");
         this.block(Blocks.DARK_OAK_LEAVES, "dark_oak");
-        this.block(Blocks.AZALEA_LEAVES, "azalea", Either.left(-9399763));
-        this.block(Blocks.FLOWERING_AZALEA_LEAVES, "flowering_azalea", Either.left(-9399763));
+        this.block(Blocks.AZALEA_LEAVES, "azalea", Either.left(AZALEA_LEAVES_COLOR));
+        this.block(Blocks.FLOWERING_AZALEA_LEAVES, "flowering_azalea", Either.left(AZALEA_LEAVES_COLOR));
         this.block(Blocks.MANGROVE_LEAVES, "mangrove");
         this.block(Blocks.CHERRY_LEAVES,
                 new ParticleSettings(ParticleSettings.createTextureLocations(ResourceLocationHelper.withDefaultNamespace(

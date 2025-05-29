@@ -37,7 +37,7 @@ abstract class ClientLevelMixin extends Level {
 
     @Inject(method = "doAnimateTick", at = @At("TAIL"))
     public void doAnimateTick(int posX, int posY, int posZ, int range, RandomSource random, @Nullable Block block, BlockPos.MutableBlockPos blockPos, CallbackInfo callback, @Local BlockState blockState) {
-        if (FallingLeavesPlus.CONFIG.get(ClientConfig.class).defaultLeaveBlocks.contains(blockState.getBlock())) {
+        if (FallingLeavesPlus.CONFIG.get(ClientConfig.class).defaultLeavesBlocks.contains(blockState.getBlock())) {
             FallingLeavesManager.makeFallingLeavesParticles(this, blockState, blockPos, random);
         }
     }
