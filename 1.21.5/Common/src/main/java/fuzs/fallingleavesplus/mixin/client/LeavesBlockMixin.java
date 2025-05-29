@@ -22,7 +22,7 @@ abstract class LeavesBlockMixin extends Block {
 
     @Inject(method = "makeFallingLeavesParticles", at = @At("HEAD"), cancellable = true)
     private void makeFallingLeavesParticles(Level level, BlockPos blockPos, RandomSource randomSource, BlockState blockState, BlockPos blockPos2, CallbackInfo callback) {
-        if (FallingLeavesPlus.CONFIG.get(ClientConfig.class).defaultLeaveBlocks.contains(this)) {
+        if (FallingLeavesPlus.CONFIG.get(ClientConfig.class).defaultLeavesBlocks.contains(this)) {
             callback.cancel();
         }
     }

@@ -1,14 +1,15 @@
 package fuzs.fallingleavesplus.client.particle;
 
+import fuzs.fallingleavesplus.FallingLeavesPlus;
 import fuzs.fallingleavesplus.client.particle.settings.AdditionalSettings;
 import fuzs.fallingleavesplus.client.particle.settings.ParticleSettings;
 import fuzs.fallingleavesplus.client.particle.settings.VanillaSettings;
+import fuzs.fallingleavesplus.config.ClientConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class TerrainFallingLeavesParticle extends CustomFallingLeavesParticle {
@@ -23,8 +24,9 @@ public class TerrainFallingLeavesParticle extends CustomFallingLeavesParticle {
         this.rCol = 0.6F;
         this.gCol = 0.6F;
         this.bCol = 0.6F;
-        if (blockState.is(Blocks.SNOW)) {
+        if (FallingLeavesPlus.CONFIG.get(ClientConfig.class).snowflakesSpawningBlocks.contains(blockState.getBlock())) {
             this.quadSize /= 2.0F;
+            this.setSize(this.quadSize, this.quadSize);
         }
         this.uo = this.random.nextFloat() * 3.0F;
         this.vo = this.random.nextFloat() * 3.0F;

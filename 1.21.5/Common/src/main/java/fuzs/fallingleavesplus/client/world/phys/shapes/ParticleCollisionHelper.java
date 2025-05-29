@@ -20,7 +20,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+/**
+ * Custom collisions for particles that take visual block shape into account.
+ */
 public class ParticleCollisionHelper {
+    /**
+     * @see CollisionContext#empty()
+     */
     private static final CollisionContext COLLISION_CONTEXT = new EntityCollisionContext(false,
             false,
             -Double.MAX_VALUE,
@@ -43,11 +49,17 @@ public class ParticleCollisionHelper {
         }
     };
 
+    /**
+     * @see Entity#collideBoundingBox(Entity, Vec3, AABB, Level, List)
+     */
     public static Vec3 collideBoundingBox(@Nullable Entity entity, Vec3 vec, AABB collisionBox, Level level, List<VoxelShape> potentialHits) {
         List<VoxelShape> list = collectColliders(entity, level, potentialHits, collisionBox.expandTowards(vec));
         return Entity.collideWithShapes(vec, collisionBox, list);
     }
 
+    /**
+     * @see Entity#collectColliders(Entity, Level, List, AABB)
+     */
     private static List<VoxelShape> collectColliders(@Nullable Entity entity, Level level, List<VoxelShape> collisions, AABB boundingBox) {
         ImmutableList.Builder<VoxelShape> builder = ImmutableList.builderWithExpectedSize(collisions.size() + 1);
         if (!collisions.isEmpty()) {
@@ -64,6 +76,9 @@ public class ParticleCollisionHelper {
         return builder.build();
     }
 
+    /**
+     * @see CollisionGetter#getBlockCollisions(Entity, AABB)
+     */
     public static Iterable<VoxelShape> getBlockCollisions(CollisionGetter collisionGetter, AABB collisionBox) {
         return () -> new BlockCollisions<>(collisionGetter,
                 COLLISION_CONTEXT,

@@ -1,7 +1,7 @@
 package fuzs.fallingleavesplus.client;
 
+import fuzs.fallingleavesplus.client.particle.FallingLeavesParticleProvider;
 import fuzs.fallingleavesplus.client.particle.settings.FallingLeavesManager;
-import fuzs.fallingleavesplus.client.particle.settings.ParticleSettings;
 import fuzs.fallingleavesplus.init.ModRegistry;
 import fuzs.puzzleslib.api.client.core.v1.ClientModConstructor;
 import fuzs.puzzleslib.api.client.core.v1.context.ParticleProvidersContext;
@@ -21,6 +21,6 @@ public class FallingLeavesPlusClient implements ClientModConstructor {
     @Override
     public void onRegisterParticleProviders(ParticleProvidersContext context) {
         context.registerParticleProvider(ModRegistry.FALLING_LEAVES_PARTICLE_TYPE.value(),
-                ParticleSettings.ParticleProviderImpl::new);
+                FallingLeavesParticleProvider::new);
     }
 }

@@ -13,6 +13,8 @@ public class ModParticleProvider extends AbstractParticleProvider {
 
     @Override
     public void addParticles() {
+        // use snowflake particles for the sprite, so we can easily use that when necessary
+        // normally sprites are set to the correct leaf texture on the fly
         this.add(ModRegistry.FALLING_LEAVES_PARTICLE_TYPE.value(),
                 ResourceLocationHelper.withDefaultNamespace("generic"),
                 7,

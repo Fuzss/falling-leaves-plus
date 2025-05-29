@@ -20,11 +20,12 @@ public class ClientConfig implements ConfigCore {
     @Config
     public final AdditionalConfig additional = new AdditionalConfig();
     @Config(
-            name = "default_leave_blocks",
-            category = CATEGORY_GENERAL,
-            description = {"Leaves blocks that will spawn leaf particles underneath.", ConfigDataSet.CONFIG_DESCRIPTION}
+            name = "default_leaves_blocks", category = CATEGORY_GENERAL, description = {
+            "Leaves blocks that will spawn custom leaf particles underneath, vanilla particles are replaced.",
+            ConfigDataSet.CONFIG_DESCRIPTION
+    }
     )
-    List<String> defaultLeaveBlocksRaw = KeyedValueProvider.tagAppender(Registries.BLOCK)
+    List<String> defaultLeavesBlocksRaw = KeyedValueProvider.tagAppender(Registries.BLOCK)
             .addTag(BlockTags.LEAVES)
             .remove(Blocks.CHERRY_LEAVES)
             .remove(Blocks.PALE_OAK_LEAVES)
@@ -39,15 +40,26 @@ public class ClientConfig implements ConfigCore {
     public double leafParticleChance = 0.01;
     @Config(
             category = CATEGORY_GENERAL,
-            description = "Spawn snow flakes below snow covered leaves instead of falling leaves."
+            description = "Spawn snowflakes below snow covered leaves instead of falling leaves."
     )
-    public boolean spawnSnowFlakes = true;
+    public boolean spawnSnowflakes = true;
+    @Config(
+            name = "snow_flakes_spawning_blocks", category = CATEGORY_GENERAL, description = {
+            "Blocks to consider as snow when deciding to spawn snowflakes instead of leaf particles.",
+            ConfigDataSet.CONFIG_DESCRIPTION
+    }
+    )
+    List<String> snowflakesSpawningBlocksRaw = KeyedValueProvider.tagAppender(Registries.BLOCK)
+            .add(Blocks.SNOW)
+            .asStringList();
 
-    public ConfigDataSet<Block> defaultLeaveBlocks;
+    public ConfigDataSet<Block> defaultLeavesBlocks;
+    public ConfigDataSet<Block> snowflakesSpawningBlocks;
 
     @Override
     public void afterConfigReload() {
-        this.defaultLeaveBlocks = ConfigDataSet.from(Registries.BLOCK, this.defaultLeaveBlocksRaw);
+        this.defaultLeavesBlocks = ConfigDataSet.from(Registries.BLOCK, this.defaultLeavesBlocksRaw);
+        this.snowflakesSpawningBlocks = ConfigDataSet.from(Registries.BLOCK, this.snowflakesSpawningBlocksRaw);
     }
 
     public static class VanillaConfig implements ConfigCore {
@@ -57,14 +69,14 @@ public class ClientConfig implements ConfigCore {
         @Config(description = "Strength factor for the wind blowing the leaf particles in a certain direction.")
         @Config.DoubleRange(min = 0.0)
         public double windStrength = 10.0;
-        @Config(description = "Determines if leaf particles swirl around as they fall.")
+        @Config(description = "Determines if leaf particles swirl around in circle patterns as they fall.")
         public boolean swirlAround = true;
-        @Config(description = "Determines if leaf particles flow away from obstacles.")
+        @Config(description = "Determines if leaf particles are blown away by wind.")
         public boolean flowAway = false;
         @Config(description = "The size of the leaf particles.")
         @Config.DoubleRange(min = 0.0)
         public double leafSize = 2.0;
-        @Config(description = "The speed at which leaf particles fall.")
+        @Config(description = "The speed at which leaf particles begin to fall upon spawning below a leaves block.")
         @Config.DoubleRange(min = 0.0)
         public double initialFallingSpeed = 0.021;
     }
