@@ -4,7 +4,7 @@
   "initial_falling_speed": 0.021,
   "leaf_particle_chance": 0.02,
   "leaf_size": 2.0,
-  "spawn_snow_flakes": true,
+  "spawn_snowflakes": true,
   "swirl_around": true,
   "textures": [
     "minecraft:pale_oak_0",
