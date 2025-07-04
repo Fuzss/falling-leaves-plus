@@ -1,4 +1,4 @@
-package fuzs.fallingleavesplus.neoforge.data.client;
+package fuzs.fallingleavesplus.data.client;
 
 import com.mojang.datafixers.util.Either;
 import fuzs.fallingleavesplus.FallingLeavesPlus;
@@ -7,34 +7,41 @@ import fuzs.fallingleavesplus.client.particle.settings.ParticleSettings;
 import fuzs.fallingleavesplus.client.particle.settings.VanillaSettings;
 import fuzs.puzzleslib.api.core.v1.utility.ResourceLocationHelper;
 import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.data.CachedOutput;
+import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.neoforged.neoforge.common.data.JsonCodecProvider;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-public class ModParticleSettingsProvider extends JsonCodecProvider<ParticleSettings> {
+public class ModParticleSettingsProvider implements DataProvider {
     static final int AZALEA_LEAVES_COLOR = -9399763;
 
+    private final Map<ResourceLocation, ParticleSettings> values = new LinkedHashMap<>();
+    private final PackOutput.PathProvider pathProvider;
+
     public ModParticleSettingsProvider(DataProviderContext context) {
-        this(context.getModId(), context.getPackOutput(), context.getRegistries());
+        this(context.getPackOutput());
     }
 
-    public ModParticleSettingsProvider(String modId, PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookupProvider) {
-        super(packOutput,
-                PackOutput.Target.RESOURCE_PACK,
-                FallingLeavesManager.ASSET_DIRECTORY,
-                ParticleSettings.CODEC,
-                lookupProvider,
-                modId);
+    public ModParticleSettingsProvider(PackOutput packOutput) {
+        this.pathProvider = packOutput.createPathProvider(PackOutput.Target.RESOURCE_PACK,
+                FallingLeavesManager.ASSET_DIRECTORY);
     }
 
     @Override
-    protected void gather() {
+    public CompletableFuture<?> run(CachedOutput cachedOutput) {
+        this.addParticleSettings();
+        return DataProvider.saveAll(cachedOutput, ParticleSettings.CODEC, this.pathProvider, this.values);
+    }
+
+    public void addParticleSettings() {
         this.block(Blocks.BIRCH_LEAVES, "birch");
         this.block(Blocks.SPRUCE_LEAVES, "spruce");
         this.block(Blocks.JUNGLE_LEAVES, "jungle");
@@ -62,6 +69,14 @@ public class ModParticleSettingsProvider extends JsonCodecProvider<ParticleSetti
     }
 
     public final void block(Block block, ParticleSettings particleSettings) {
-        this.unconditional(BuiltInRegistries.BLOCK.getKey(block), particleSettings);
+        ResourceLocation resourceLocation = BuiltInRegistries.BLOCK.getKey(block);
+        if (this.values.putIfAbsent(resourceLocation, particleSettings) != null) {
+            throw new IllegalStateException("Duplicate particle settings: " + resourceLocation);
+        }
+    }
+
+    @Override
+    public String getName() {
+        return "Particle Settings";
     }
 }

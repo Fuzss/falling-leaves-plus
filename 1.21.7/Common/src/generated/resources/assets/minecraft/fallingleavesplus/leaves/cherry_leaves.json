@@ -4,7 +4,7 @@
   "initial_falling_speed": 0.0,
   "leaf_particle_chance": 0.01,
   "leaf_size": 1.0,
-  "spawn_snow_flakes": true,
+  "spawn_snowflakes": true,
   "swirl_around": false,
   "textures": [
     "minecraft:cherry_0",

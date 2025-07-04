@@ -1,13 +1,13 @@
-package fuzs.fallingleavesplus.neoforge.data.client;
+package fuzs.fallingleavesplus.data.client;
 
 import fuzs.fallingleavesplus.init.ModRegistry;
+import fuzs.puzzleslib.api.client.data.v2.AbstractParticleProvider;
 import fuzs.puzzleslib.api.core.v1.utility.ResourceLocationHelper;
-import fuzs.puzzleslib.neoforge.api.client.data.v2.AbstractParticleProvider;
-import fuzs.puzzleslib.neoforge.api.data.v2.core.NeoForgeDataProviderContext;
+import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
 
 public class ModParticleProvider extends AbstractParticleProvider {
 
-    public ModParticleProvider(NeoForgeDataProviderContext context) {
+    public ModParticleProvider(DataProviderContext context) {
         super(context);
     }
 
