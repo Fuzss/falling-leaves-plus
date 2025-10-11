@@ -3,13 +3,11 @@ package fuzs.fallingleavesplus.client.world.phys.shapes;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockCollisions;
 import net.minecraft.world.level.CollisionGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.border.WorldBorder;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -25,14 +23,9 @@ import java.util.List;
  */
 public class ParticleCollisionHelper {
     /**
-     * @see CollisionContext#empty()
+     * @see EntityCollisionContext.Empty#WITHOUT_FLUID_COLLISIONS
      */
-    private static final CollisionContext COLLISION_CONTEXT = new EntityCollisionContext(false,
-            false,
-            -Double.MAX_VALUE,
-            ItemStack.EMPTY,
-            (FluidState fluidState) -> false,
-            null) {
+    private static final CollisionContext COLLISION_CONTEXT = new EntityCollisionContext.Empty(false) {
         @Override
         public VoxelShape getCollisionShape(BlockState blockState, CollisionGetter collisionGetter, BlockPos pos) {
             VoxelShape voxelShape = blockState.getVisualShape(collisionGetter, pos, this);
@@ -41,11 +34,6 @@ public class ParticleCollisionHelper {
             } else {
                 return voxelShape;
             }
-        }
-
-        @Override
-        public boolean isAbove(VoxelShape shape, BlockPos pos, boolean canAscend) {
-            return canAscend;
         }
     };
 

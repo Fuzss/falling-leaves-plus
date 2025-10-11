@@ -2,13 +2,12 @@ package fuzs.fallingleavesplus.client.particle;
 
 import fuzs.fallingleavesplus.FallingLeavesPlus;
 import fuzs.fallingleavesplus.client.particle.settings.AdditionalSettings;
-import fuzs.fallingleavesplus.client.particle.settings.ParticleSettings;
 import fuzs.fallingleavesplus.client.particle.settings.VanillaSettings;
 import fuzs.fallingleavesplus.config.ClientConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -17,8 +16,8 @@ public class TerrainFallingLeavesParticle extends CustomFallingLeavesParticle {
     private final float uo;
     private final float vo;
 
-    public TerrainFallingLeavesParticle(ClientLevel level, double x, double y, double z, BlockState blockState, VanillaSettings vanillaSettings, AdditionalSettings additionalSettings) {
-        super(level, x, y, z, ParticleSettings.createDefaultSpriteSet(), vanillaSettings, additionalSettings);
+    public TerrainFallingLeavesParticle(ClientLevel level, double x, double y, double z, TextureAtlasSprite sprite, BlockState blockState, VanillaSettings vanillaSettings, AdditionalSettings additionalSettings) {
+        super(level, x, y, z, sprite, vanillaSettings, additionalSettings);
         this.pos = BlockPos.containing(x, y, z);
         this.setSprite(Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(blockState));
         this.rCol = 0.6F;
@@ -33,8 +32,8 @@ public class TerrainFallingLeavesParticle extends CustomFallingLeavesParticle {
     }
 
     @Override
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.TERRAIN_SHEET;
+    public Layer getLayer() {
+        return Layer.TERRAIN;
     }
 
     @Override
