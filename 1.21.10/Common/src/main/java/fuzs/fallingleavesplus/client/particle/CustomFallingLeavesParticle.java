@@ -1,6 +1,5 @@
 package fuzs.fallingleavesplus.client.particle;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import fuzs.fallingleavesplus.client.particle.settings.AdditionalSettings;
 import fuzs.fallingleavesplus.client.particle.settings.DecayMode;
 import fuzs.fallingleavesplus.client.particle.settings.VanillaSettings;
@@ -8,8 +7,8 @@ import fuzs.fallingleavesplus.client.world.phys.shapes.ParticleCollisionHelper;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.FallingLeavesParticle;
-import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.client.renderer.state.QuadParticleRenderState;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
@@ -20,12 +19,12 @@ public class CustomFallingLeavesParticle extends FallingLeavesParticle {
     private final DecayMode decayMode;
     public final boolean collideWithVisualShape;
 
-    public CustomFallingLeavesParticle(ClientLevel level, double x, double y, double z, SpriteSet spriteSet, VanillaSettings vanillaSettings, AdditionalSettings additionalSettings) {
+    public CustomFallingLeavesParticle(ClientLevel level, double x, double y, double z, TextureAtlasSprite sprite, VanillaSettings vanillaSettings, AdditionalSettings additionalSettings) {
         super(level,
                 x,
                 y,
                 z,
-                spriteSet,
+                sprite,
                 vanillaSettings.getGravityMultiplier(),
                 vanillaSettings.getWindStrength(level, additionalSettings),
                 vanillaSettings.getSwirlAround(),
@@ -33,25 +32,24 @@ public class CustomFallingLeavesParticle extends FallingLeavesParticle {
                 vanillaSettings.getLeafSize(),
                 vanillaSettings.getFallingSpeed());
         this.lifetime = additionalSettings.getLifetimeInSeconds() * 20;
+        float particleRandom = this.random.nextFloat();
         this.xaFlowScale =
-                Math.cos(Math.toRadians(this.particleRandom * 60.0F + additionalSettings.getWindDirection())) *
-                        this.windBig;
+                Math.cos(Math.toRadians(particleRandom * 60.0F + additionalSettings.getWindDirection())) * this.windBig;
         this.zaFlowScale =
-                Math.sin(Math.toRadians(this.particleRandom * 60.0F + additionalSettings.getWindDirection())) *
-                        this.windBig;
+                Math.sin(Math.toRadians(particleRandom * 60.0F + additionalSettings.getWindDirection())) * this.windBig;
         this.collideWithVisualShape = additionalSettings.getCollideWithVisualShapes();
         this.decayMode = additionalSettings.getDecayOnGroundMode();
     }
 
     @Override
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+    public Layer getLayer() {
+        return Layer.TRANSLUCENT;
     }
 
     @Override
-    public void render(VertexConsumer buffer, Camera camera, float partialTicks) {
-        this.setAlpha(this.lifetimeAlpha.currentAlphaForAge(this.age, this.lifetime, partialTicks));
-        super.render(buffer, camera, partialTicks);
+    public void extract(QuadParticleRenderState reusedState, Camera camera, float partialTick) {
+        this.setAlpha(this.lifetimeAlpha.currentAlphaForAge(this.age, this.lifetime, partialTick));
+        super.extract(reusedState, camera, partialTick);
     }
 
     @Override
@@ -123,8 +121,8 @@ public class CustomFallingLeavesParticle extends FallingLeavesParticle {
                 double d = x;
                 double e = y;
                 double f = z;
-                if (this.hasPhysics && (x != 0.0 || y != 0.0 || z != 0.0) &&
-                        x * x + y * y + z * z < MAXIMUM_COLLISION_VELOCITY_SQUARED) {
+                if (this.hasPhysics && (x != 0.0 || y != 0.0 || z != 0.0)
+                        && x * x + y * y + z * z < MAXIMUM_COLLISION_VELOCITY_SQUARED) {
                     Vec3 vec3 = ParticleCollisionHelper.collideBoundingBox(null,
                             new Vec3(x, y, z),
                             this.getBoundingBox(),

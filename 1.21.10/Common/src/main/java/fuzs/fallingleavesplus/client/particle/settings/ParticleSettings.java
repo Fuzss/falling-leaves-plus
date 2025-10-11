@@ -7,15 +7,13 @@ import fuzs.fallingleavesplus.FallingLeavesPlus;
 import fuzs.fallingleavesplus.config.ClientConfig;
 import fuzs.puzzleslib.api.core.v1.utility.ResourceLocationHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.ParticleEngine;
+import net.minecraft.client.particle.ParticleResources;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.level.Level;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -63,8 +61,8 @@ public record ParticleSettings(Optional<List<ResourceLocation>> textures,
     }
 
     public float getLeafParticleChanceWithWeather(Level level) {
-        return this.getLeafParticleChance() *
-                this.additionalSettings().getWeatherMultiplier(level.isRaining(), level.isThundering());
+        return this.getLeafParticleChance() * this.additionalSettings()
+                .getWeatherMultiplier(level.isRaining(), level.isThundering());
     }
 
     public List<ResourceLocation> getLeavesTextures() {
@@ -88,8 +86,7 @@ public record ParticleSettings(Optional<List<ResourceLocation>> textures,
     }
 
     public static SpriteSet createSpriteSet(List<ResourceLocation> textureLocations) {
-        ParticleEngine.MutableSpriteSet spriteSet = new ParticleEngine.MutableSpriteSet();
-        List<TextureAtlasSprite> list = new ArrayList<>(textureLocations.size());
+        ParticleResources.MutableSpriteSet spriteSet = new ParticleResources.MutableSpriteSet();
         TextureAtlas textureAtlas = (TextureAtlas) Minecraft.getInstance()
                 .getTextureManager()
                 .getTexture(TextureAtlas.LOCATION_PARTICLES);
