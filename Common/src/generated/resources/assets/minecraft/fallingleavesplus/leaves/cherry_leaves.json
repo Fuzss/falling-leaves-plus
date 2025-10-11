@@ -1,0 +1,25 @@
+{
+  "flow_away": true,
+  "gravity_multiplier": 0.25,
+  "initial_falling_speed": 0.0,
+  "leaf_particle_chance": 0.01,
+  "leaf_size": 1.0,
+  "spawn_snowflakes": true,
+  "swirl_around": false,
+  "textures": [
+    "minecraft:cherry_0",
+    "minecraft:cherry_1",
+    "minecraft:cherry_2",
+    "minecraft:cherry_3",
+    "minecraft:cherry_4",
+    "minecraft:cherry_5",
+    "minecraft:cherry_6",
+    "minecraft:cherry_7",
+    "minecraft:cherry_8",
+    "minecraft:cherry_9",
+    "minecraft:cherry_10",
+    "minecraft:cherry_11"
+  ],
+  "tinted": false,
+  "wind_strength": 2.0
+}
