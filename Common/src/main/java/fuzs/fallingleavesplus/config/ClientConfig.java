@@ -63,7 +63,7 @@ public class ClientConfig implements ConfigCore {
         public boolean swirlAround = true;
         @Config(description = "Determines if leaf particles are blown away by wind.")
         public boolean flowAway = false;
-        @Config(description = "The size of the leaf particles.")
+        @Config(description = "The physical and visual size of the leaf particles.")
         @Config.DoubleRange(min = 0.0)
         public double leafSize = 2.0;
         @Config(description = "The speed at which leaf particles begin to fall upon spawning below a leaves block.")
@@ -72,15 +72,6 @@ public class ClientConfig implements ConfigCore {
     }
 
     public static class AdditionalConfig implements ConfigCore {
-        @Config(description = "Rain and snow will allow more leaf particles to spawn, and increase wind strength.")
-        @Config.DoubleRange(min = 0.0)
-        public double rainAmplifier = 1.0;
-        @Config(description = "Thunder will allow more leaf particles to spawn, and increase wind strength.")
-        @Config.DoubleRange(min = 0.0)
-        public double thunderstormAmplifier = 2.0;
-        @Config(description = "Wind direction in degrees for where leaves are blowing away to.")
-        @Config.DoubleRange(min = 0.0, max = 360.0)
-        public double windDirection = 0.0;
         @Config(description = "Maximum time in seconds leaf particles may exist in the world.")
         @Config.IntRange(min = 0)
         public int lifetimeInSeconds = 15;
@@ -88,5 +79,14 @@ public class ClientConfig implements ConfigCore {
         public boolean collideWithVisualShapes = true;
         @Config(description = "Decay speed for when leaf particles land on the ground.")
         public DecayMode decayOnGroundMode = DecayMode.FAST;
+        @Config(description = "Wind direction in degrees for where leaves are blowing away to.")
+        @Config.DoubleRange(min = 0.0, max = 360.0)
+        public double windDirection = 0.0;
+        @Config(description = "Rain and snow will allow more leaf particles to spawn, and increase wind strength.")
+        @Config.DoubleRange(min = 0.0)
+        public double rainAmplifier = 1.0;
+        @Config(description = "Thunder will allow more leaf particles to spawn, and increase wind strength.")
+        @Config.DoubleRange(min = 0.0)
+        public double thunderstormAmplifier = 2.0;
     }
 }
