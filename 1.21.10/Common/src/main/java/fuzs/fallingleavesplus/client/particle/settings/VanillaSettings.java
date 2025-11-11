@@ -35,22 +35,23 @@ public record VanillaSettings(Optional<Float> gravityMultiplier,
             Optional.empty(),
             Optional.empty(),
             Optional.empty());
-    /**
-     * @see net.minecraft.client.particle.FallingLeavesParticle.CherryProvider
-     */
-    public static final VanillaSettings CHERRY_LEAVES = new VanillaSettings(0.25F, 2.0F, false, true, 1.0F, 0.0F);
-    /**
-     * @see net.minecraft.client.particle.FallingLeavesParticle.PaleOakProvider
-     */
-    public static final VanillaSettings PALE_OAK_LEAVES = new VanillaSettings(0.07F, 10.0F, true, false, 2.0F, 0.021F);
 
-    public VanillaSettings(float gravityMultiplier, float windStrength, boolean swirlAround, boolean flowAway, float leafSize, float initialFallingSpeed) {
-        this(Optional.of(gravityMultiplier),
+    public static VanillaSettings of(float gravityMultiplier, float windStrength, boolean swirlAround, boolean flowAway, float leafSize, float initialFallingSpeed) {
+        return new VanillaSettings(Optional.of(gravityMultiplier),
                 Optional.of(windStrength),
                 Optional.of(swirlAround),
                 Optional.of(flowAway),
                 Optional.of(leafSize),
                 Optional.of(initialFallingSpeed));
+    }
+
+    public static VanillaSettings fixedSize(float leafSize) {
+        return new VanillaSettings(Optional.empty(),
+                Optional.empty(),
+                Optional.empty(),
+                Optional.empty(),
+                Optional.of(leafSize),
+                Optional.empty());
     }
 
     public float getGravityMultiplier() {
@@ -62,8 +63,8 @@ public record VanillaSettings(Optional<Float> gravityMultiplier,
     }
 
     public float getWindStrength(Level level, AdditionalSettings additionalSettings) {
-        return this.getWindStrength() *
-                additionalSettings.getWeatherMultiplier(level.isRaining(), level.isThundering());
+        return this.getWindStrength() * additionalSettings.getWeatherMultiplier(level.isRaining(),
+                level.isThundering());
     }
 
     public boolean getSwirlAround() {

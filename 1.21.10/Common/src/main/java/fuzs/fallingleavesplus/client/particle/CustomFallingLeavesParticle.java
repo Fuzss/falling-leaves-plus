@@ -46,6 +46,11 @@ public class CustomFallingLeavesParticle extends FallingLeavesParticle {
         return Layer.TRANSLUCENT;
     }
 
+    public void scaleSize(float scaleAmount) {
+        this.quadSize *= scaleAmount;
+        this.setSize(this.quadSize, this.quadSize);
+    }
+
     @Override
     public void extract(QuadParticleRenderState reusedState, Camera camera, float partialTick) {
         this.setAlpha(this.lifetimeAlpha.currentAlphaForAge(this.age, this.lifetime, partialTick));

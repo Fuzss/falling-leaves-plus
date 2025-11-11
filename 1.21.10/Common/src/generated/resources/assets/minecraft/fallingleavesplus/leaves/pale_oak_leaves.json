@@ -1,11 +1,5 @@
 {
-  "flow_away": false,
-  "gravity_multiplier": 0.07,
-  "initial_falling_speed": 0.021,
   "leaf_particle_chance": 0.02,
-  "leaf_size": 2.0,
-  "spawn_snowflakes": true,
-  "swirl_around": true,
   "textures": [
     "minecraft:pale_oak_0",
     "minecraft:pale_oak_1",
@@ -19,7 +13,5 @@
     "minecraft:pale_oak_9",
     "minecraft:pale_oak_10",
     "minecraft:pale_oak_11"
-  ],
-  "tinted": false,
-  "wind_strength": 10.0
+  ]
 }

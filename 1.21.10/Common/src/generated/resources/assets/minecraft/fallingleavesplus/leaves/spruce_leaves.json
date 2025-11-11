@@ -1,16 +1,38 @@
 {
   "textures": [
-    "fallingleavesplus:spruce_0",
-    "fallingleavesplus:spruce_1",
-    "fallingleavesplus:spruce_2",
-    "fallingleavesplus:spruce_3",
-    "fallingleavesplus:spruce_4",
-    "fallingleavesplus:spruce_5",
-    "fallingleavesplus:spruce_6",
-    "fallingleavesplus:spruce_7",
+    {
+      "asset_id": "fallingleavesplus:spruce_0",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:spruce_1",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:spruce_2",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:spruce_3",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:spruce_4",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:spruce_5",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:spruce_6",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:spruce_7",
+      "tinted": true
+    },
     "fallingleavesplus:spruce_8",
-    "fallingleavesplus:spruce_9",
-    "fallingleavesplus:spruce_10",
-    "fallingleavesplus:spruce_11"
+    "fallingleavesplus:spruce_10"
   ]
 }

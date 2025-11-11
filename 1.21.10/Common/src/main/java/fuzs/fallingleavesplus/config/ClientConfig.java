@@ -19,36 +19,26 @@ public class ClientConfig implements ConfigCore {
     public final VanillaConfig vanilla = new VanillaConfig();
     @Config
     public final AdditionalConfig additional = new AdditionalConfig();
-    @Config(
-            name = "default_leaves_blocks", category = CATEGORY_GENERAL, description = {
+    @Config(name = "default_leaves_blocks", category = CATEGORY_GENERAL, description = {
             "Leaves blocks that will spawn custom leaf particles underneath, vanilla particles are replaced.",
             ConfigDataSet.CONFIG_DESCRIPTION
-    }
-    )
+    })
     List<String> defaultLeavesBlocksRaw = KeyedValueProvider.tagAppender(Registries.BLOCK)
             .addTag(BlockTags.LEAVES)
-            .remove(Blocks.CHERRY_LEAVES)
-            .remove(Blocks.PALE_OAK_LEAVES)
             .asStringList();
     @Config(category = CATEGORY_GENERAL, description = "Use block particles as leaves instead of leaf sprites.")
     public boolean blockParticles = false;
-    @Config(
-            category = CATEGORY_GENERAL,
-            description = "The chance for a leaf particle to spawn below a leaves block on every animation tick."
-    )
+    @Config(category = CATEGORY_GENERAL,
+            description = "The chance for a leaf particle to spawn below a leaves block on every animation tick.")
     @Config.DoubleRange(min = 0.0, max = 1.0)
     public double leafParticleChance = 0.01;
-    @Config(
-            category = CATEGORY_GENERAL,
-            description = "Spawn snowflakes below snow covered leaves instead of falling leaves."
-    )
+    @Config(category = CATEGORY_GENERAL,
+            description = "Spawn snowflakes below snow covered leaves instead of falling leaves.")
     public boolean spawnSnowflakes = true;
-    @Config(
-            name = "snow_flakes_spawning_blocks", category = CATEGORY_GENERAL, description = {
+    @Config(name = "snow_flakes_spawning_blocks", category = CATEGORY_GENERAL, description = {
             "Blocks to consider as snow when deciding to spawn snowflakes instead of leaf particles.",
             ConfigDataSet.CONFIG_DESCRIPTION
-    }
-    )
+    })
     List<String> snowflakesSpawningBlocksRaw = KeyedValueProvider.tagAppender(Registries.BLOCK)
             .add(Blocks.SNOW)
             .asStringList();

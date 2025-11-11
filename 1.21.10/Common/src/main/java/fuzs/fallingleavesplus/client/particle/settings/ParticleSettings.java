@@ -1,34 +1,25 @@
 package fuzs.fallingleavesplus.client.particle.settings;
 
-import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import fuzs.fallingleavesplus.FallingLeavesPlus;
 import fuzs.fallingleavesplus.config.ClientConfig;
-import fuzs.puzzleslib.api.core.v1.utility.ResourceLocationHelper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.ParticleResources;
-import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.ExtraCodecs;
+import fuzs.fallingleavesplus.data.client.ModParticleSettingsProvider;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Function;
-import java.util.stream.IntStream;
 
-public record ParticleSettings(Optional<List<ResourceLocation>> textures,
-                               Either<Integer, Optional<Boolean>> tint,
+public record ParticleSettings(List<ParticleTexture> textures,
                                Optional<Float> leafParticleChance,
                                Optional<Boolean> spawnSnowflakes,
                                VanillaSettings vanillaSettings,
                                AdditionalSettings additionalSettings) {
     public static final Codec<ParticleSettings> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                    ResourceLocation.CODEC.listOf().optionalFieldOf("textures").forGetter(ParticleSettings::textures),
-                    Codec.mapEither(ExtraCodecs.ARGB_COLOR_CODEC.fieldOf("tint_color"),
-                            Codec.BOOL.lenientOptionalFieldOf("tinted")).forGetter(ParticleSettings::tint),
+                    ParticleTexture.CODEC.listOf()
+                            .lenientOptionalFieldOf("textures", ModParticleSettingsProvider.OAK_TEXTURES)
+                            .forGetter(ParticleSettings::textures),
                     Codec.floatRange(0.0F, 1.0F)
                             .lenientOptionalFieldOf("leaf_particle_chance")
                             .forGetter(ParticleSettings::leafParticleChance),
@@ -36,25 +27,7 @@ public record ParticleSettings(Optional<List<ResourceLocation>> textures,
                     VanillaSettings.CODEC.forGetter(ParticleSettings::vanillaSettings),
                     AdditionalSettings.CODEC.forGetter(ParticleSettings::additionalSettings))
             .apply(instance, ParticleSettings::new));
-    public static final ParticleSettings DEFAULT = new ParticleSettings(Optional.empty(),
-            Either.right(Optional.empty()),
-            Optional.empty(),
-            Optional.empty());
-    static final List<ResourceLocation> DEFAULT_LEAVES_TEXTURES = createTextureLocations(ResourceLocationHelper.withDefaultNamespace(
-            "leaf"));
-
-    public ParticleSettings(List<ResourceLocation> textures, float leafParticleChance, VanillaSettings vanillaSettings) {
-        this(Optional.of(textures),
-                Either.right(Optional.of(Boolean.FALSE)),
-                Optional.of(leafParticleChance),
-                Optional.of(Boolean.TRUE),
-                vanillaSettings,
-                AdditionalSettings.DEFAULT);
-    }
-
-    public ParticleSettings(Optional<List<ResourceLocation>> textures, Either<Integer, Optional<Boolean>> tint, Optional<Float> leafParticleChance, Optional<Boolean> spawnSnowFlakes) {
-        this(textures, tint, leafParticleChance, spawnSnowFlakes, VanillaSettings.DEFAULT, AdditionalSettings.DEFAULT);
-    }
+    static final ParticleSettings DEFAULT = builder().build();
 
     public float getLeafParticleChance() {
         return this.leafParticleChance.orElseGet(() -> (float) FallingLeavesPlus.CONFIG.get(ClientConfig.class).leafParticleChance);
@@ -65,38 +38,57 @@ public record ParticleSettings(Optional<List<ResourceLocation>> textures,
                 .getWeatherMultiplier(level.isRaining(), level.isThundering());
     }
 
-    public List<ResourceLocation> getLeavesTextures() {
-        return this.textures.orElse(DEFAULT_LEAVES_TEXTURES);
-    }
-
-    public boolean isTinted() {
-        return this.tint.right().flatMap(Function.identity()).orElse(Boolean.TRUE);
-    }
-
-    public int pickTintColor(int tintColor) {
-        return this.tint.left().orElse(tintColor);
+    public List<ParticleTexture> getLeavesTextures() {
+        return this.textures;
     }
 
     public boolean getSpawnSnowflakes() {
         return this.spawnSnowflakes.orElseGet(() -> FallingLeavesPlus.CONFIG.get(ClientConfig.class).spawnSnowflakes);
     }
 
-    public static SpriteSet createDefaultSpriteSet() {
-        return createSpriteSet(DEFAULT_LEAVES_TEXTURES);
+    public static Builder builder() {
+        return new Builder();
     }
 
-    public static SpriteSet createSpriteSet(List<ResourceLocation> textureLocations) {
-        ParticleResources.MutableSpriteSet spriteSet = new ParticleResources.MutableSpriteSet();
-        TextureAtlas textureAtlas = (TextureAtlas) Minecraft.getInstance()
-                .getTextureManager()
-                .getTexture(TextureAtlas.LOCATION_PARTICLES);
-        spriteSet.rebind(textureLocations.stream().map(textureAtlas::getSprite).toList());
-        return spriteSet;
-    }
+    public static class Builder {
+        private List<ParticleTexture> textures = ModParticleSettingsProvider.OAK_TEXTURES;
+        private Optional<Float> leafParticleChance = Optional.empty();
+        private Optional<Boolean> spawnSnowflakes = Optional.empty();
+        private VanillaSettings vanillaSettings = VanillaSettings.DEFAULT;
+        private AdditionalSettings additionalSettings = AdditionalSettings.DEFAULT;
 
-    public static List<ResourceLocation> createTextureLocations(ResourceLocation resourceLocation) {
-        return IntStream.range(0, 12)
-                .mapToObj((int i) -> resourceLocation.withPath((String s) -> s + "_" + i))
-                .toList();
+        public Builder setTextures(List<ParticleTexture> textures) {
+            Objects.requireNonNull(textures, "textures is null");
+            this.textures = textures;
+            return this;
+        }
+
+        public Builder setLeafParticleChance(float leafParticleChance) {
+            this.leafParticleChance = Optional.of(leafParticleChance);
+            return this;
+        }
+
+        public Builder setSpawnSnowflakes(boolean spawnSnowflakes) {
+            this.spawnSnowflakes = Optional.of(spawnSnowflakes);
+            return this;
+        }
+
+        public Builder setVanillaSettings(VanillaSettings vanillaSettings) {
+            this.vanillaSettings = vanillaSettings;
+            return this;
+        }
+
+        public Builder setAdditionalSettings(AdditionalSettings additionalSettings) {
+            this.additionalSettings = additionalSettings;
+            return this;
+        }
+
+        public ParticleSettings build() {
+            return new ParticleSettings(this.textures,
+                    this.leafParticleChance,
+                    this.spawnSnowflakes,
+                    this.vanillaSettings,
+                    this.additionalSettings);
+        }
     }
 }
