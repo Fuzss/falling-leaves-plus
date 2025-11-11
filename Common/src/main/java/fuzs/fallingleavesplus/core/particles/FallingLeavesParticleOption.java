@@ -14,12 +14,16 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public record FallingLeavesParticleOption(ParticleType<FallingLeavesParticleOption> particleType,
                                           BlockState blockState,
-                                          int color) implements ParticleOptions {
+                                          int tintColor) implements ParticleOptions {
+
+    public FallingLeavesParticleOption(ParticleType<FallingLeavesParticleOption> particleType, BlockState blockState) {
+        this(particleType, blockState, -1);
+    }
 
     public static MapCodec<FallingLeavesParticleOption> codec(ParticleType<FallingLeavesParticleOption> particleType) {
         return RecordCodecBuilder.mapCodec(instance -> instance.group(BlockState.CODEC.fieldOf("block_state")
                                 .forGetter(FallingLeavesParticleOption::blockState),
-                        ExtraCodecs.ARGB_COLOR_CODEC.fieldOf("color").forGetter(FallingLeavesParticleOption::color))
+                        ExtraCodecs.ARGB_COLOR_CODEC.fieldOf("tint_color").forGetter(FallingLeavesParticleOption::tintColor))
                 .apply(instance, (BlockState blockState, Integer color) -> {
                     return new FallingLeavesParticleOption(particleType, blockState, color);
                 }));
@@ -29,7 +33,7 @@ public record FallingLeavesParticleOption(ParticleType<FallingLeavesParticleOpti
         return StreamCodec.composite(ByteBufCodecs.idMapper(Block.BLOCK_STATE_REGISTRY),
                 FallingLeavesParticleOption::blockState,
                 ByteBufCodecs.INT,
-                FallingLeavesParticleOption::color,
+                FallingLeavesParticleOption::tintColor,
                 (BlockState blockState, Integer color) -> {
                     return new FallingLeavesParticleOption(particleType, blockState, color);
                 });
@@ -41,14 +45,14 @@ public record FallingLeavesParticleOption(ParticleType<FallingLeavesParticleOpti
     }
 
     public float getRed() {
-        return ARGB.red(this.color) / 255.0F;
+        return ARGB.redFloat(this.tintColor);
     }
 
     public float getGreen() {
-        return ARGB.green(this.color) / 255.0F;
+        return ARGB.greenFloat(this.tintColor);
     }
 
     public float getBlue() {
-        return ARGB.blue(this.color) / 255.0F;
+        return ARGB.blueFloat(this.tintColor);
     }
 }

@@ -7,6 +7,7 @@ import fuzs.fallingleavesplus.init.ModRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.ResourceLocation;
@@ -50,6 +51,7 @@ public final class FallingLeavesManager extends SimpleJsonResourceReloadListener
                 map.put(BuiltInRegistries.BLOCK.getValue(entry.getKey()), entry.getValue());
             }
         }
+
         this.particleSettings = Collections.unmodifiableMap(map);
     }
 
@@ -66,20 +68,41 @@ public final class FallingLeavesManager extends SimpleJsonResourceReloadListener
         }
     }
 
-    public static void makeFallingLeavesParticles(Level level, BlockState blockState, BlockPos blockPos, RandomSource randomSource) {
+    public static void spawnFallingLeavesParticles(Level level, BlockState blockState, BlockPos blockPos, RandomSource randomSource) {
         ParticleSettings particleSettings = getParticleSettings(blockState);
-        if (!(randomSource.nextFloat() >= particleSettings.getLeafParticleChanceWithWeather(level))) {
+        if (randomSource.nextFloat() < particleSettings.getLeafParticleChanceWithWeather(level)) {
             BlockState blockStateBelow = level.getBlockState(blockPos.below());
             if (!Block.isFaceFull(blockStateBelow.getCollisionShape(level, blockPos.below()), Direction.UP)) {
-                BlockState blockStateAbove = level.getBlockState(blockPos.above());
-                ParticleOptions particleOptions = new FallingLeavesParticleOption(ModRegistry.FALLING_LEAVES_PARTICLE_TYPE.value(),
-                        particleSettings.getSpawnSnowflakes() &&
-                                FallingLeavesPlus.CONFIG.get(ClientConfig.class).snowflakesSpawningBlocks.contains(
-                                        blockStateAbove.getBlock()) ? blockStateAbove.getBlock().defaultBlockState() :
-                                blockState,
-                        level.getClientLeafTintColor(blockPos));
+                ParticleOptions particleOptions = createLeavesParticles(level,
+                        blockState,
+                        blockPos,
+                        particleSettings.getSpawnSnowflakes());
                 ParticleUtils.spawnParticleBelow(level, blockPos, randomSource, particleOptions);
             }
+        }
+    }
+
+    private static ParticleOptions createLeavesParticles(Level level, BlockState blockState, BlockPos blockPos, boolean spawnSnowflakes) {
+        if (spawnSnowflakes) {
+            BlockState blockStateAbove = level.getBlockState(blockPos.above());
+            if (FallingLeavesPlus.CONFIG.get(ClientConfig.class).snowflakesSpawningBlocks.contains(blockStateAbove.getBlock())) {
+                ParticleType<FallingLeavesParticleOption> particleType = pickParticleType(true);
+                return new FallingLeavesParticleOption(particleType, blockStateAbove);
+            }
+        }
+
+        ParticleType<FallingLeavesParticleOption> particleType = pickParticleType(false);
+        return new FallingLeavesParticleOption(particleType,
+                blockState,
+                level.getClientLeafTintColor(blockPos));
+    }
+
+    private static ParticleType<FallingLeavesParticleOption> pickParticleType(boolean isSnowflake) {
+        if (FallingLeavesPlus.CONFIG.get(ClientConfig.class).blockParticles) {
+            return ModRegistry.TERRAIN_LEAVES_PARTICLE_TYPE.value();
+        } else {
+            return isSnowflake ? ModRegistry.FALLING_SNOWFLAKE_PARTICLE_TYPE.value() :
+                    ModRegistry.FALLING_LEAVES_PARTICLE_TYPE.value();
         }
     }
 }

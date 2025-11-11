@@ -8,8 +8,18 @@ import net.minecraft.core.particles.ParticleType;
 
 public class ModRegistry {
     static final RegistryManager REGISTRIES = RegistryManager.from(FallingLeavesPlus.MOD_ID);
+    public static final Holder.Reference<ParticleType<FallingLeavesParticleOption>> TERRAIN_LEAVES_PARTICLE_TYPE = REGISTRIES.registerParticleType(
+            "terrain_leaves",
+            false,
+            FallingLeavesParticleOption::codec,
+            FallingLeavesParticleOption::streamCodec);
     public static final Holder.Reference<ParticleType<FallingLeavesParticleOption>> FALLING_LEAVES_PARTICLE_TYPE = REGISTRIES.registerParticleType(
             "falling_leaves",
+            false,
+            FallingLeavesParticleOption::codec,
+            FallingLeavesParticleOption::streamCodec);
+    public static final Holder.Reference<ParticleType<FallingLeavesParticleOption>> FALLING_SNOWFLAKE_PARTICLE_TYPE = REGISTRIES.registerParticleType(
+            "falling_snowflake",
             false,
             FallingLeavesParticleOption::codec,
             FallingLeavesParticleOption::streamCodec);

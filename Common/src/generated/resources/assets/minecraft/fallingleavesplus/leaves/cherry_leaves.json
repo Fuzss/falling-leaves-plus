@@ -2,9 +2,8 @@
   "flow_away": true,
   "gravity_multiplier": 0.25,
   "initial_falling_speed": 0.0,
-  "leaf_particle_chance": 0.01,
   "leaf_size": 1.0,
-  "spawn_snowflakes": true,
+  "spawn_snowflakes": false,
   "swirl_around": false,
   "textures": [
     "minecraft:cherry_0",
@@ -20,6 +19,5 @@
     "minecraft:cherry_10",
     "minecraft:cherry_11"
   ],
-  "tinted": false,
   "wind_strength": 2.0
 }

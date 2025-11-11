@@ -1,16 +1,21 @@
 {
+  "leaf_size": 2.4,
   "textures": [
-    "fallingleavesplus:mangrove_0",
-    "fallingleavesplus:mangrove_1",
-    "fallingleavesplus:mangrove_2",
-    "fallingleavesplus:mangrove_3",
-    "fallingleavesplus:mangrove_4",
-    "fallingleavesplus:mangrove_5",
-    "fallingleavesplus:mangrove_6",
-    "fallingleavesplus:mangrove_7",
-    "fallingleavesplus:mangrove_8",
-    "fallingleavesplus:mangrove_9",
-    "fallingleavesplus:mangrove_10",
-    "fallingleavesplus:mangrove_11"
+    {
+      "asset_id": "fallingleavesplus:mangrove_0",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:mangrove_1",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:mangrove_2",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:mangrove_3",
+      "tinted": true
+    }
   ]
 }

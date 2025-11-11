@@ -2,15 +2,26 @@ package fuzs.fallingleavesplus.client.particle;
 
 import fuzs.fallingleavesplus.FallingLeavesPlus;
 import fuzs.fallingleavesplus.client.particle.settings.AdditionalSettings;
+import fuzs.fallingleavesplus.client.particle.settings.FallingLeavesManager;
+import fuzs.fallingleavesplus.client.particle.settings.ParticleSettings;
 import fuzs.fallingleavesplus.client.particle.settings.VanillaSettings;
 import fuzs.fallingleavesplus.config.ClientConfig;
+import fuzs.fallingleavesplus.core.particles.FallingLeavesParticleOption;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.Nullable;
 
+/**
+ * @see net.minecraft.client.particle.TerrainParticle
+ */
 public class TerrainFallingLeavesParticle extends CustomFallingLeavesParticle {
     private final BlockPos pos;
     private final float uo;
@@ -27,6 +38,7 @@ public class TerrainFallingLeavesParticle extends CustomFallingLeavesParticle {
             this.quadSize /= 2.0F;
             this.setSize(this.quadSize, this.quadSize);
         }
+
         this.uo = this.random.nextFloat() * 3.0F;
         this.vo = this.random.nextFloat() * 3.0F;
     }
@@ -60,5 +72,28 @@ public class TerrainFallingLeavesParticle extends CustomFallingLeavesParticle {
     public int getLightColor(float partialTick) {
         int i = super.getLightColor(partialTick);
         return i == 0 && this.level.hasChunkAt(this.pos) ? LevelRenderer.getLightColor(this.level, this.pos) : i;
+    }
+
+    public static class Provider implements ParticleProvider<FallingLeavesParticleOption> {
+        @Override
+        public @Nullable Particle createParticle(FallingLeavesParticleOption particleOptions, ClientLevel clientLevel, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomSource random) {
+            if (!particleOptions.blockState().isAir() && particleOptions.blockState().shouldSpawnTerrainParticles()) {
+                ParticleSettings particleSettings = FallingLeavesManager.getParticleSettings(particleOptions.blockState());
+                SingleQuadParticle particle = new TerrainFallingLeavesParticle(clientLevel,
+                        x,
+                        y,
+                        z,
+                        AbstractFallingLeavesParticleProvider.getParticleTextureAtlas().missingSprite(),
+                        particleOptions.blockState(),
+                        particleSettings.vanillaSettings(),
+                        particleSettings.additionalSettings());
+                particle.rCol *= particleOptions.getRed();
+                particle.gCol *= particleOptions.getGreen();
+                particle.bCol *= particleOptions.getBlue();
+                return particle;
+            } else {
+                return null;
+            }
+        }
     }
 }
