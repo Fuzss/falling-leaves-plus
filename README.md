@@ -33,11 +33,15 @@ corresponding global setting.
 
 All per-block configuration files must be placed under:
 
-> assets/<namespace>/fallingleavesplus/leaves/<path>.json
+```
+assets/<namespace>/fallingleavesplus/leaves/<path>.json
+```
 
 For example, to configure `minecraft:birch_leaves`, the file should be located at:
 
-> assets/minecraft/fallingleavesplus/leaves/birch_leaves.json
+```
+assets/minecraft/fallingleavesplus/leaves/birch_leaves.json
+```
 
 ---
 
