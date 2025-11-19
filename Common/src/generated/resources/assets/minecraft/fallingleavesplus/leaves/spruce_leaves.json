@@ -1,4 +1,5 @@
 {
+  "lifetime_in_seconds": 20,
   "textures": [
     {
       "asset_id": "fallingleavesplus:spruce_0",
@@ -32,7 +33,10 @@
       "asset_id": "fallingleavesplus:spruce_7",
       "tinted": true
     },
-    "fallingleavesplus:spruce_8",
-    "fallingleavesplus:spruce_10"
+    {
+      "asset_id": "fallingleavesplus:spruce_branch",
+      "texture_scale": 1.4
+    },
+    "fallingleavesplus:spruce_cone"
   ]
 }

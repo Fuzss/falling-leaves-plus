@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import fuzs.fallingleavesplus.FallingLeavesPlus;
 import fuzs.fallingleavesplus.config.ClientConfig;
-import fuzs.fallingleavesplus.data.client.ModParticleSettingsProvider;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
@@ -18,7 +17,7 @@ public record ParticleSettings(List<ParticleTexture> textures,
                                AdditionalSettings additionalSettings) {
     public static final Codec<ParticleSettings> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                     ParticleTexture.CODEC.listOf()
-                            .lenientOptionalFieldOf("textures", ModParticleSettingsProvider.OAK_TEXTURES)
+                            .lenientOptionalFieldOf("textures", ParticleTexture.DEFAULT)
                             .forGetter(ParticleSettings::textures),
                     Codec.floatRange(0.0F, 1.0F)
                             .lenientOptionalFieldOf("leaf_particle_chance")
@@ -27,7 +26,7 @@ public record ParticleSettings(List<ParticleTexture> textures,
                     VanillaSettings.CODEC.forGetter(ParticleSettings::vanillaSettings),
                     AdditionalSettings.CODEC.forGetter(ParticleSettings::additionalSettings))
             .apply(instance, ParticleSettings::new));
-    static final ParticleSettings DEFAULT = builder().build();
+    public static final ParticleSettings DEFAULT = builder().build();
 
     public float getLeafParticleChance() {
         return this.leafParticleChance.orElseGet(() -> (float) FallingLeavesPlus.CONFIG.get(ClientConfig.class).leafParticleChance);
@@ -50,8 +49,12 @@ public record ParticleSettings(List<ParticleTexture> textures,
         return new Builder();
     }
 
+    public static ParticleSettings fromTextures(List<ParticleTexture> textures) {
+        return builder().setTextures(textures).build();
+    }
+
     public static class Builder {
-        private List<ParticleTexture> textures = ModParticleSettingsProvider.OAK_TEXTURES;
+        private List<ParticleTexture> textures = ParticleTexture.DEFAULT;
         private Optional<Float> leafParticleChance = Optional.empty();
         private Optional<Boolean> spawnSnowflakes = Optional.empty();
         private VanillaSettings vanillaSettings = VanillaSettings.DEFAULT;

@@ -36,12 +36,12 @@ public record VanillaSettings(Optional<Float> gravityMultiplier,
             Optional.empty(),
             Optional.empty());
 
-    public static VanillaSettings of(float gravityMultiplier, float windStrength, boolean swirlAround, boolean flowAway, float leafSize, float initialFallingSpeed) {
+    public static VanillaSettings of(float gravityMultiplier, float windStrength, boolean swirlAround, boolean flowAway, float initialFallingSpeed) {
         return new VanillaSettings(Optional.of(gravityMultiplier),
                 Optional.of(windStrength),
                 Optional.of(swirlAround),
                 Optional.of(flowAway),
-                Optional.of(leafSize),
+                Optional.empty(),
                 Optional.of(initialFallingSpeed));
     }
 

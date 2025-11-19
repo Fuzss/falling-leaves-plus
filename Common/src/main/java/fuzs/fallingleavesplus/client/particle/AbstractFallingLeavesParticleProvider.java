@@ -12,15 +12,12 @@ import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.Unit;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Objects;
 
 public abstract class AbstractFallingLeavesParticleProvider<T> implements ParticleProvider<FallingLeavesParticleOption> {
 
@@ -62,20 +59,18 @@ public abstract class AbstractFallingLeavesParticleProvider<T> implements Partic
         }
 
         @Override
-        protected @Nullable ParticleTexture pickParticleTexture(ParticleSettings particleSettings, RandomSource randomSource) {
+        protected ParticleTexture pickParticleTexture(ParticleSettings particleSettings, RandomSource randomSource) {
             List<ParticleTexture> textures = particleSettings.getLeavesTextures();
             return textures.get(randomSource.nextInt(textures.size()));
         }
 
         @Override
-        protected TextureAtlasSprite pickSprite(@Nullable ParticleTexture particleTexture, RandomSource randomSource) {
-            Objects.requireNonNull(particleTexture, "particle texture is null");
+        protected TextureAtlasSprite pickSprite(ParticleTexture particleTexture, RandomSource randomSource) {
             return getParticleTextureAtlas().getSprite(particleTexture.id());
         }
 
         @Override
-        protected void setTintColor(CustomFallingLeavesParticle particle, int tintColor, @Nullable ParticleTexture particleTexture) {
-            Objects.requireNonNull(particleTexture, "particle texture is null");
+        protected void setTintColor(CustomFallingLeavesParticle particle, int tintColor, ParticleTexture particleTexture) {
             if (particleTexture.isTinted()) {
                 tintColor = particleTexture.pickTintColor(tintColor);
                 particle.rCol *= ARGB.redFloat(tintColor);
@@ -86,15 +81,13 @@ public abstract class AbstractFallingLeavesParticleProvider<T> implements Partic
 
         @Override
         protected void setQuadSize(CustomFallingLeavesParticle particle, ParticleTexture particleTexture) {
-            if (particleTexture.textureScale() != 1.0F) {
-                particle.scaleSize(particleTexture.textureScale());
-            }
+            particleTexture.textureScale().ifPresent(particle::scaleSize);
         }
     }
 
     public static class SnowflakeProvider extends AbstractFallingLeavesParticleProvider<Unit> {
         private static final ParticleSettings PARTICLE_SETTINGS = ParticleSettings.builder()
-                .setVanillaSettings(VanillaSettings.fixedSize(2.0F))
+                .setVanillaSettings(VanillaSettings.fixedSize(2.4F))
                 .build();
 
         private final SpriteSet sprites;
@@ -118,13 +111,9 @@ public abstract class AbstractFallingLeavesParticleProvider<T> implements Partic
             return this.sprites.get(randomSource);
         }
 
-        /**
-         * @see net.minecraft.client.particle.SnowflakeParticle.Provider#createParticle(SimpleParticleType,
-         *         ClientLevel, double, double, double, double, double, double, RandomSource)
-         */
         @Override
         protected void setTintColor(CustomFallingLeavesParticle particle, int tintColor, Unit particleTexture) {
-            particle.setColor(0.923F, 0.964F, 0.999F);
+            // NO-OP
         }
 
         @Override

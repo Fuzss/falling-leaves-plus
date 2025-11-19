@@ -15,6 +15,30 @@
     {
       "asset_id": "fallingleavesplus:birch_3",
       "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:birch_4",
+      "texture_scale": 0.6,
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:birch_5",
+      "texture_scale": 0.6,
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:birch_6",
+      "texture_scale": 0.6,
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:birch_7",
+      "texture_scale": 0.6,
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:birch_branch",
+      "texture_scale": 1.4
     }
   ]
 }

@@ -1,21 +1,49 @@
 {
-  "leaf_size": 2.4,
+  "lifetime_in_seconds": 20,
   "textures": [
     {
       "asset_id": "fallingleavesplus:jungle_0",
+      "texture_scale": 1.4,
       "tinted": true
     },
     {
       "asset_id": "fallingleavesplus:jungle_1",
+      "texture_scale": 1.4,
       "tinted": true
     },
     {
       "asset_id": "fallingleavesplus:jungle_2",
+      "texture_scale": 1.4,
       "tinted": true
     },
     {
       "asset_id": "fallingleavesplus:jungle_3",
+      "texture_scale": 1.4,
       "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:jungle_4",
+      "texture_scale": 1.4,
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:jungle_5",
+      "texture_scale": 1.4,
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:jungle_6",
+      "texture_scale": 1.4,
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:jungle_7",
+      "texture_scale": 1.4,
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:jungle_branch",
+      "texture_scale": 1.4
     }
   ]
 }
