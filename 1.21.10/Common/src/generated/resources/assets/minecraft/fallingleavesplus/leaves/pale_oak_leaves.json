@@ -1,17 +1,57 @@
 {
   "leaf_particle_chance": 0.02,
   "textures": [
-    "minecraft:pale_oak_0",
-    "minecraft:pale_oak_1",
-    "minecraft:pale_oak_2",
-    "minecraft:pale_oak_3",
-    "minecraft:pale_oak_4",
-    "minecraft:pale_oak_5",
-    "minecraft:pale_oak_6",
-    "minecraft:pale_oak_7",
-    "minecraft:pale_oak_8",
-    "minecraft:pale_oak_9",
-    "minecraft:pale_oak_10",
-    "minecraft:pale_oak_11"
+    {
+      "asset_id": "minecraft:pale_oak_0",
+      "tinted": true
+    },
+    {
+      "asset_id": "minecraft:pale_oak_1",
+      "tinted": true
+    },
+    {
+      "asset_id": "minecraft:pale_oak_2",
+      "tinted": true
+    },
+    {
+      "asset_id": "minecraft:pale_oak_3",
+      "tinted": true
+    },
+    {
+      "asset_id": "minecraft:pale_oak_4",
+      "tinted": true
+    },
+    {
+      "asset_id": "minecraft:pale_oak_5",
+      "tinted": true
+    },
+    {
+      "asset_id": "minecraft:pale_oak_6",
+      "tinted": true
+    },
+    {
+      "asset_id": "minecraft:pale_oak_7",
+      "tinted": true
+    },
+    {
+      "asset_id": "minecraft:pale_oak_8",
+      "tinted": true
+    },
+    {
+      "asset_id": "minecraft:pale_oak_9",
+      "tinted": true
+    },
+    {
+      "asset_id": "minecraft:pale_oak_10",
+      "tinted": true
+    },
+    {
+      "asset_id": "minecraft:pale_oak_11",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:pale_oak_branch",
+      "texture_scale": 1.4
+    }
   ]
 }

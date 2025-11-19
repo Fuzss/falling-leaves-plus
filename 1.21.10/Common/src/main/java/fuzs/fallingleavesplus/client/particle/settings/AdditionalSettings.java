@@ -38,6 +38,15 @@ public record AdditionalSettings(Optional<Integer> lifetimeInSeconds,
             Optional.empty(),
             Optional.empty());
 
+    public static AdditionalSettings fixedLifetime(int lifetimeInSeconds) {
+        return new AdditionalSettings(Optional.of(lifetimeInSeconds),
+                Optional.empty(),
+                Optional.empty(),
+                Optional.empty(),
+                Optional.empty(),
+                Optional.empty());
+    }
+
     public int getLifetimeInSeconds() {
         return this.lifetimeInSeconds.orElseGet(() -> FallingLeavesPlus.CONFIG.get(ClientConfig.class).additional.lifetimeInSeconds);
     }

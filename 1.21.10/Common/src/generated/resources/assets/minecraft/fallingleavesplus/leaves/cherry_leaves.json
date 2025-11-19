@@ -2,22 +2,62 @@
   "flow_away": true,
   "gravity_multiplier": 0.25,
   "initial_falling_speed": 0.0,
-  "leaf_size": 1.0,
+  "leaf_particle_chance": 0.1,
   "spawn_snowflakes": false,
   "swirl_around": false,
   "textures": [
-    "minecraft:cherry_0",
-    "minecraft:cherry_1",
-    "minecraft:cherry_2",
-    "minecraft:cherry_3",
-    "minecraft:cherry_4",
-    "minecraft:cherry_5",
-    "minecraft:cherry_6",
-    "minecraft:cherry_7",
-    "minecraft:cherry_8",
-    "minecraft:cherry_9",
-    "minecraft:cherry_10",
-    "minecraft:cherry_11"
+    {
+      "asset_id": "minecraft:cherry_0",
+      "texture_scale": 0.6
+    },
+    {
+      "asset_id": "minecraft:cherry_1",
+      "texture_scale": 0.6
+    },
+    {
+      "asset_id": "minecraft:cherry_2",
+      "texture_scale": 0.6
+    },
+    {
+      "asset_id": "minecraft:cherry_3",
+      "texture_scale": 0.6
+    },
+    {
+      "asset_id": "minecraft:cherry_4",
+      "texture_scale": 0.6
+    },
+    {
+      "asset_id": "minecraft:cherry_5",
+      "texture_scale": 0.6
+    },
+    {
+      "asset_id": "minecraft:cherry_6",
+      "texture_scale": 0.6
+    },
+    {
+      "asset_id": "minecraft:cherry_7",
+      "texture_scale": 0.6
+    },
+    {
+      "asset_id": "minecraft:cherry_8",
+      "texture_scale": 0.6
+    },
+    {
+      "asset_id": "minecraft:cherry_9",
+      "texture_scale": 0.6
+    },
+    {
+      "asset_id": "minecraft:cherry_10",
+      "texture_scale": 0.6
+    },
+    {
+      "asset_id": "minecraft:cherry_11",
+      "texture_scale": 0.6
+    },
+    {
+      "asset_id": "fallingleavesplus:cherry_branch",
+      "texture_scale": 1.4
+    }
   ],
   "wind_strength": 2.0
 }

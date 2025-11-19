@@ -15,6 +15,26 @@
     {
       "asset_id": "fallingleavesplus:acacia_3",
       "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:acacia_4",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:acacia_5",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:acacia_6",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:acacia_7",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:acacia_branch",
+      "texture_scale": 1.4
     }
   ]
 }

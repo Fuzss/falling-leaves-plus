@@ -1,1 +1,58 @@
-{}
+{
+  "textures": [
+    {
+      "asset_id": "minecraft:leaf_0",
+      "tinted": true
+    },
+    {
+      "asset_id": "minecraft:leaf_1",
+      "tinted": true
+    },
+    {
+      "asset_id": "minecraft:leaf_2",
+      "tinted": true
+    },
+    {
+      "asset_id": "minecraft:leaf_3",
+      "tinted": true
+    },
+    {
+      "asset_id": "minecraft:leaf_4",
+      "tinted": true
+    },
+    {
+      "asset_id": "minecraft:leaf_5",
+      "tinted": true
+    },
+    {
+      "asset_id": "minecraft:leaf_6",
+      "tinted": true
+    },
+    {
+      "asset_id": "minecraft:leaf_7",
+      "tinted": true
+    },
+    {
+      "asset_id": "minecraft:leaf_8",
+      "tinted": true
+    },
+    {
+      "asset_id": "minecraft:leaf_9",
+      "tinted": true
+    },
+    {
+      "asset_id": "minecraft:leaf_10",
+      "tinted": true
+    },
+    {
+      "asset_id": "minecraft:leaf_11",
+      "tinted": true
+    },
+    "fallingleavesplus:oak_acorn",
+    "fallingleavesplus:oak_apple",
+    {
+      "asset_id": "fallingleavesplus:oak_branch",
+      "texture_scale": 1.4
+    }
+  ]
+}

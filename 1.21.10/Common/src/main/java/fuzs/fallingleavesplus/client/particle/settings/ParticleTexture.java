@@ -1,21 +1,25 @@
 package fuzs.fallingleavesplus.client.particle.settings;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import fuzs.puzzleslib.api.core.v1.utility.ResourceLocationHelper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
-public record ParticleTexture(ResourceLocation id, float textureScale, Either<Integer, Boolean> tint) {
+public record ParticleTexture(ResourceLocation id, Optional<Float> textureScale, Either<Integer, Boolean> tint) {
     public static final MapCodec<Either<Integer, Boolean>> TINT_CODEC = Codec.mapEither(ExtraCodecs.ARGB_COLOR_CODEC.fieldOf(
             "tint_color"), Codec.BOOL.lenientOptionalFieldOf("tinted", Boolean.FALSE));
     private static final Codec<ParticleTexture> FULL_CODEC = RecordCodecBuilder.create((RecordCodecBuilder.Instance<ParticleTexture> instance) -> {
         return instance.group(ResourceLocation.CODEC.fieldOf("asset_id").forGetter(ParticleTexture::id),
-                ExtraCodecs.POSITIVE_FLOAT.optionalFieldOf("texture_scale", 1.0F)
-                        .forGetter(ParticleTexture::textureScale),
+                ExtraCodecs.POSITIVE_FLOAT.optionalFieldOf("texture_scale").forGetter(ParticleTexture::textureScale),
                 TINT_CODEC.forGetter(ParticleTexture::tint)).apply(instance, ParticleTexture::new);
     });
     public static final Codec<ParticleTexture> CODEC = Codec.either(ResourceLocation.CODEC, FULL_CODEC)
@@ -24,29 +28,43 @@ public record ParticleTexture(ResourceLocation id, float textureScale, Either<In
             }, (ParticleTexture particleTexture) -> {
                 return particleTexture.isComplex() ? Either.right(particleTexture) : Either.left(particleTexture.id);
             });
+    public static final List<ParticleTexture> DEFAULT = ParticleTexture.builder()
+            .biomeTint(ResourceLocationHelper.withDefaultNamespace("leaf_0"))
+            .biomeTint(ResourceLocationHelper.withDefaultNamespace("leaf_1"))
+            .biomeTint(ResourceLocationHelper.withDefaultNamespace("leaf_2"))
+            .biomeTint(ResourceLocationHelper.withDefaultNamespace("leaf_3"))
+            .biomeTint(ResourceLocationHelper.withDefaultNamespace("leaf_4"))
+            .biomeTint(ResourceLocationHelper.withDefaultNamespace("leaf_5"))
+            .biomeTint(ResourceLocationHelper.withDefaultNamespace("leaf_6"))
+            .biomeTint(ResourceLocationHelper.withDefaultNamespace("leaf_7"))
+            .biomeTint(ResourceLocationHelper.withDefaultNamespace("leaf_8"))
+            .biomeTint(ResourceLocationHelper.withDefaultNamespace("leaf_9"))
+            .biomeTint(ResourceLocationHelper.withDefaultNamespace("leaf_10"))
+            .biomeTint(ResourceLocationHelper.withDefaultNamespace("leaf_11"))
+            .build();
 
     public static ParticleTexture noTint(ResourceLocation id) {
-        return noTint(id, 1.0F);
+        return new ParticleTexture(id, Optional.empty(), Either.right(Boolean.FALSE));
     }
 
     public static ParticleTexture noTint(ResourceLocation id, float textureScale) {
-        return new ParticleTexture(id, textureScale, Either.right(Boolean.FALSE));
+        return new ParticleTexture(id, Optional.of(textureScale), Either.right(Boolean.FALSE));
     }
 
     public static ParticleTexture biomeTint(ResourceLocation id) {
-        return biomeTint(id, 1.0F);
+        return new ParticleTexture(id, Optional.empty(), Either.right(Boolean.TRUE));
     }
 
     public static ParticleTexture biomeTint(ResourceLocation id, float textureScale) {
-        return new ParticleTexture(id, textureScale, Either.right(Boolean.TRUE));
+        return new ParticleTexture(id, Optional.of(textureScale), Either.right(Boolean.TRUE));
     }
 
     public static ParticleTexture fixedTint(ResourceLocation id, int tintColor) {
-        return new ParticleTexture(id, 1.0F, Either.left(tintColor));
+        return new ParticleTexture(id, Optional.empty(), Either.left(tintColor));
     }
 
     private boolean isComplex() {
-        return this.isTinted() || this.textureScale != 1.0F;
+        return this.isTinted() || this.textureScale.isPresent();
     }
 
     public boolean isTinted() {
@@ -55,5 +73,42 @@ public record ParticleTexture(ResourceLocation id, float textureScale, Either<In
 
     public int pickTintColor(int tintColor) {
         return this.tint().left().orElse(tintColor);
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private final List<ParticleTexture> textures = new ArrayList<>();
+
+        public Builder noTint(ResourceLocation id) {
+            this.textures.add(ParticleTexture.noTint(id));
+            return this;
+        }
+
+        public Builder noTint(ResourceLocation id, float textureScale) {
+            this.textures.add(ParticleTexture.noTint(id, textureScale));
+            return this;
+        }
+
+        public Builder biomeTint(ResourceLocation id) {
+            this.textures.add(ParticleTexture.biomeTint(id));
+            return this;
+        }
+
+        public Builder biomeTint(ResourceLocation id, float textureScale) {
+            this.textures.add(ParticleTexture.biomeTint(id, textureScale));
+            return this;
+        }
+
+        public Builder fixedTint(ResourceLocation id, int tintColor) {
+            this.textures.add(ParticleTexture.fixedTint(id, tintColor));
+            return this;
+        }
+
+        public List<ParticleTexture> build() {
+            return ImmutableList.copyOf(this.textures);
+        }
     }
 }
