@@ -1,0 +1,40 @@
+{
+  "textures": [
+    {
+      "asset_id": "fallingleavesplus:dark_oak_0",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:dark_oak_1",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:dark_oak_2",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:dark_oak_3",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:dark_oak_4",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:dark_oak_5",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:dark_oak_6",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:dark_oak_7",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:dark_oak_branch",
+      "texture_scale": 1.4
+    }
+  ]
+}

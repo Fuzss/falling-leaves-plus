@@ -1,0 +1,42 @@
+{
+  "lifetime_in_seconds": 20,
+  "textures": [
+    {
+      "asset_id": "fallingleavesplus:spruce_0",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:spruce_1",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:spruce_2",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:spruce_3",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:spruce_4",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:spruce_5",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:spruce_6",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:spruce_7",
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:spruce_branch",
+      "texture_scale": 1.4
+    },
+    "fallingleavesplus:spruce_cone"
+  ]
+}

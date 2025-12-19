@@ -1,0 +1,48 @@
+{
+  "textures": [
+    {
+      "asset_id": "fallingleavesplus:mangrove_0",
+      "texture_scale": 1.4,
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:mangrove_1",
+      "texture_scale": 1.4,
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:mangrove_2",
+      "texture_scale": 1.4,
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:mangrove_3",
+      "texture_scale": 1.4,
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:mangrove_4",
+      "texture_scale": 1.4,
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:mangrove_5",
+      "texture_scale": 1.4,
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:mangrove_6",
+      "texture_scale": 1.4,
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:mangrove_7",
+      "texture_scale": 1.4,
+      "tinted": true
+    },
+    {
+      "asset_id": "fallingleavesplus:mangrove_branch",
+      "texture_scale": 1.4
+    }
+  ]
+}

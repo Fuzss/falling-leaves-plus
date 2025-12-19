@@ -1,0 +1,25 @@
+{
+  "leaf_particle_chance": 0.02,
+  "textures": [
+    "fallingleavesplus:flowering_azalea_0",
+    "fallingleavesplus:flowering_azalea_1",
+    "fallingleavesplus:flowering_azalea_2",
+    "fallingleavesplus:flowering_azalea_3",
+    {
+      "asset_id": "fallingleavesplus:flowering_azalea_4",
+      "texture_scale": 0.6
+    },
+    {
+      "asset_id": "fallingleavesplus:flowering_azalea_5",
+      "texture_scale": 0.6
+    },
+    {
+      "asset_id": "fallingleavesplus:flowering_azalea_6",
+      "texture_scale": 0.6
+    },
+    {
+      "asset_id": "fallingleavesplus:flowering_azalea_7",
+      "texture_scale": 0.6
+    }
+  ]
+}
