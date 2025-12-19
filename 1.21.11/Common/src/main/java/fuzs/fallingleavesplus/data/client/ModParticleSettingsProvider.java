@@ -2,13 +2,13 @@ package fuzs.fallingleavesplus.data.client;
 
 import fuzs.fallingleavesplus.FallingLeavesPlus;
 import fuzs.fallingleavesplus.client.particle.settings.*;
-import fuzs.puzzleslib.api.core.v1.utility.ResourceLocationHelper;
+import net.minecraft.resources.Identifier;
 import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
@@ -44,18 +44,18 @@ public class ModParticleSettingsProvider implements DataProvider {
      */
     private static final float LARGE_LEAF_SIZE = 1.4F;
     private static final List<ParticleTexture> OAK_TEXTURES = ParticleTexture.builder()
-            .biomeTint(ResourceLocationHelper.withDefaultNamespace("leaf_0"))
-            .biomeTint(ResourceLocationHelper.withDefaultNamespace("leaf_1"))
-            .biomeTint(ResourceLocationHelper.withDefaultNamespace("leaf_2"))
-            .biomeTint(ResourceLocationHelper.withDefaultNamespace("leaf_3"))
-            .biomeTint(ResourceLocationHelper.withDefaultNamespace("leaf_4"))
-            .biomeTint(ResourceLocationHelper.withDefaultNamespace("leaf_5"))
-            .biomeTint(ResourceLocationHelper.withDefaultNamespace("leaf_6"))
-            .biomeTint(ResourceLocationHelper.withDefaultNamespace("leaf_7"))
-            .biomeTint(ResourceLocationHelper.withDefaultNamespace("leaf_8"))
-            .biomeTint(ResourceLocationHelper.withDefaultNamespace("leaf_9"))
-            .biomeTint(ResourceLocationHelper.withDefaultNamespace("leaf_10"))
-            .biomeTint(ResourceLocationHelper.withDefaultNamespace("leaf_11"))
+            .biomeTint(Identifier.withDefaultNamespace("leaf_0"))
+            .biomeTint(Identifier.withDefaultNamespace("leaf_1"))
+            .biomeTint(Identifier.withDefaultNamespace("leaf_2"))
+            .biomeTint(Identifier.withDefaultNamespace("leaf_3"))
+            .biomeTint(Identifier.withDefaultNamespace("leaf_4"))
+            .biomeTint(Identifier.withDefaultNamespace("leaf_5"))
+            .biomeTint(Identifier.withDefaultNamespace("leaf_6"))
+            .biomeTint(Identifier.withDefaultNamespace("leaf_7"))
+            .biomeTint(Identifier.withDefaultNamespace("leaf_8"))
+            .biomeTint(Identifier.withDefaultNamespace("leaf_9"))
+            .biomeTint(Identifier.withDefaultNamespace("leaf_10"))
+            .biomeTint(Identifier.withDefaultNamespace("leaf_11"))
             .noTint(FallingLeavesPlus.id("oak_acorn"))
             .noTint(FallingLeavesPlus.id("oak_apple"))
             .noTint(FallingLeavesPlus.id("oak_branch"), LARGE_LEAF_SIZE)
@@ -148,37 +148,37 @@ public class ModParticleSettingsProvider implements DataProvider {
             .noTint(FallingLeavesPlus.id("mangrove_branch"), LARGE_LEAF_SIZE)
             .build();
     private static final List<ParticleTexture> CHERRY_TEXTURES = ParticleTexture.builder()
-            .noTint(ResourceLocationHelper.withDefaultNamespace("cherry_0"), SMALL_LEAF_SIZE)
-            .noTint(ResourceLocationHelper.withDefaultNamespace("cherry_1"), SMALL_LEAF_SIZE)
-            .noTint(ResourceLocationHelper.withDefaultNamespace("cherry_2"), SMALL_LEAF_SIZE)
-            .noTint(ResourceLocationHelper.withDefaultNamespace("cherry_3"), SMALL_LEAF_SIZE)
-            .noTint(ResourceLocationHelper.withDefaultNamespace("cherry_4"), SMALL_LEAF_SIZE)
-            .noTint(ResourceLocationHelper.withDefaultNamespace("cherry_5"), SMALL_LEAF_SIZE)
-            .noTint(ResourceLocationHelper.withDefaultNamespace("cherry_6"), SMALL_LEAF_SIZE)
-            .noTint(ResourceLocationHelper.withDefaultNamespace("cherry_7"), SMALL_LEAF_SIZE)
-            .noTint(ResourceLocationHelper.withDefaultNamespace("cherry_8"), SMALL_LEAF_SIZE)
-            .noTint(ResourceLocationHelper.withDefaultNamespace("cherry_9"), SMALL_LEAF_SIZE)
-            .noTint(ResourceLocationHelper.withDefaultNamespace("cherry_10"), SMALL_LEAF_SIZE)
-            .noTint(ResourceLocationHelper.withDefaultNamespace("cherry_11"), SMALL_LEAF_SIZE)
+            .noTint(Identifier.withDefaultNamespace("cherry_0"), SMALL_LEAF_SIZE)
+            .noTint(Identifier.withDefaultNamespace("cherry_1"), SMALL_LEAF_SIZE)
+            .noTint(Identifier.withDefaultNamespace("cherry_2"), SMALL_LEAF_SIZE)
+            .noTint(Identifier.withDefaultNamespace("cherry_3"), SMALL_LEAF_SIZE)
+            .noTint(Identifier.withDefaultNamespace("cherry_4"), SMALL_LEAF_SIZE)
+            .noTint(Identifier.withDefaultNamespace("cherry_5"), SMALL_LEAF_SIZE)
+            .noTint(Identifier.withDefaultNamespace("cherry_6"), SMALL_LEAF_SIZE)
+            .noTint(Identifier.withDefaultNamespace("cherry_7"), SMALL_LEAF_SIZE)
+            .noTint(Identifier.withDefaultNamespace("cherry_8"), SMALL_LEAF_SIZE)
+            .noTint(Identifier.withDefaultNamespace("cherry_9"), SMALL_LEAF_SIZE)
+            .noTint(Identifier.withDefaultNamespace("cherry_10"), SMALL_LEAF_SIZE)
+            .noTint(Identifier.withDefaultNamespace("cherry_11"), SMALL_LEAF_SIZE)
             .noTint(FallingLeavesPlus.id("cherry_branch"), LARGE_LEAF_SIZE)
             .build();
     private static final List<ParticleTexture> PALE_OAK_TEXTURES = ParticleTexture.builder()
-            .biomeTint(ResourceLocationHelper.withDefaultNamespace("pale_oak_0"))
-            .biomeTint(ResourceLocationHelper.withDefaultNamespace("pale_oak_1"))
-            .biomeTint(ResourceLocationHelper.withDefaultNamespace("pale_oak_2"))
-            .biomeTint(ResourceLocationHelper.withDefaultNamespace("pale_oak_3"))
-            .biomeTint(ResourceLocationHelper.withDefaultNamespace("pale_oak_4"))
-            .biomeTint(ResourceLocationHelper.withDefaultNamespace("pale_oak_5"))
-            .biomeTint(ResourceLocationHelper.withDefaultNamespace("pale_oak_6"))
-            .biomeTint(ResourceLocationHelper.withDefaultNamespace("pale_oak_7"))
-            .biomeTint(ResourceLocationHelper.withDefaultNamespace("pale_oak_8"))
-            .biomeTint(ResourceLocationHelper.withDefaultNamespace("pale_oak_9"))
-            .biomeTint(ResourceLocationHelper.withDefaultNamespace("pale_oak_10"))
-            .biomeTint(ResourceLocationHelper.withDefaultNamespace("pale_oak_11"))
+            .biomeTint(Identifier.withDefaultNamespace("pale_oak_0"))
+            .biomeTint(Identifier.withDefaultNamespace("pale_oak_1"))
+            .biomeTint(Identifier.withDefaultNamespace("pale_oak_2"))
+            .biomeTint(Identifier.withDefaultNamespace("pale_oak_3"))
+            .biomeTint(Identifier.withDefaultNamespace("pale_oak_4"))
+            .biomeTint(Identifier.withDefaultNamespace("pale_oak_5"))
+            .biomeTint(Identifier.withDefaultNamespace("pale_oak_6"))
+            .biomeTint(Identifier.withDefaultNamespace("pale_oak_7"))
+            .biomeTint(Identifier.withDefaultNamespace("pale_oak_8"))
+            .biomeTint(Identifier.withDefaultNamespace("pale_oak_9"))
+            .biomeTint(Identifier.withDefaultNamespace("pale_oak_10"))
+            .biomeTint(Identifier.withDefaultNamespace("pale_oak_11"))
             .noTint(FallingLeavesPlus.id("pale_oak_branch"), LARGE_LEAF_SIZE)
             .build();
 
-    private final Map<ResourceLocation, ParticleSettings> values = new LinkedHashMap<>();
+    private final Map<Identifier, ParticleSettings> values = new LinkedHashMap<>();
     private final PackOutput.PathProvider pathProvider;
 
     public ModParticleSettingsProvider(DataProviderContext context) {
@@ -232,9 +232,9 @@ public class ModParticleSettingsProvider implements DataProvider {
     }
 
     public final void block(Block block, ParticleSettings particleSettings) {
-        ResourceLocation resourceLocation = BuiltInRegistries.BLOCK.getKey(block);
-        if (this.values.putIfAbsent(resourceLocation, particleSettings) != null) {
-            throw new IllegalStateException("Duplicate particle settings: " + resourceLocation);
+        Identifier identifier = BuiltInRegistries.BLOCK.getKey(block);
+        if (this.values.putIfAbsent(identifier, particleSettings) != null) {
+            throw new IllegalStateException("Duplicate particle settings: " + identifier);
         }
     }
 
