@@ -12,9 +12,8 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SingleQuadParticle;
-import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.core.BlockPos;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jspecify.annotations.Nullable;
@@ -23,14 +22,17 @@ import org.jspecify.annotations.Nullable;
  * @see net.minecraft.client.particle.TerrainParticle
  */
 public class TerrainFallingLeavesParticle extends CustomFallingLeavesParticle {
-    private final BlockPos pos;
+    private final SingleQuadParticle.Layer layer;
     private final float uo;
     private final float vo;
 
     public TerrainFallingLeavesParticle(ClientLevel level, double x, double y, double z, TextureAtlasSprite sprite, BlockState blockState, VanillaSettings vanillaSettings, AdditionalSettings additionalSettings) {
         super(level, x, y, z, sprite, vanillaSettings, additionalSettings);
-        this.pos = BlockPos.containing(x, y, z);
-        this.setSprite(Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(blockState));
+        Material.Baked particleMaterial = Minecraft.getInstance()
+                .getModelManager()
+                .getBlockStateModelSet()
+                .getParticleMaterial(blockState);
+        this.setSprite(particleMaterial.sprite());
         this.rCol = 0.6F;
         this.gCol = 0.6F;
         this.bCol = 0.6F;
@@ -41,11 +43,12 @@ public class TerrainFallingLeavesParticle extends CustomFallingLeavesParticle {
 
         this.uo = this.random.nextFloat() * 3.0F;
         this.vo = this.random.nextFloat() * 3.0F;
+        this.layer = SingleQuadParticle.Layer.bySprite(this.sprite);
     }
 
     @Override
-    public Layer getLayer() {
-        return Layer.TERRAIN;
+    public SingleQuadParticle.Layer getLayer() {
+        return this.layer;
     }
 
     @Override
@@ -66,12 +69,6 @@ public class TerrainFallingLeavesParticle extends CustomFallingLeavesParticle {
     @Override
     protected float getV1() {
         return this.sprite.getV((this.vo + 1.0F) / 4.0F);
-    }
-
-    @Override
-    public int getLightColor(float partialTick) {
-        int i = super.getLightColor(partialTick);
-        return i == 0 && this.level.hasChunkAt(this.pos) ? LevelRenderer.getLightColor(this.level, this.pos) : i;
     }
 
     public static class Provider implements ParticleProvider<FallingLeavesParticleOption> {

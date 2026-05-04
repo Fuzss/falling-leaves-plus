@@ -4,9 +4,9 @@ import fuzs.fallingleavesplus.client.particle.AbstractFallingLeavesParticleProvi
 import fuzs.fallingleavesplus.client.particle.TerrainFallingLeavesParticle;
 import fuzs.fallingleavesplus.client.particle.settings.FallingLeavesManager;
 import fuzs.fallingleavesplus.init.ModRegistry;
-import fuzs.puzzleslib.api.client.core.v1.ClientModConstructor;
-import fuzs.puzzleslib.api.client.core.v1.context.ParticleProvidersContext;
-import fuzs.puzzleslib.api.client.core.v1.context.ResourcePackReloadListenersContext;
+import fuzs.puzzleslib.common.api.client.core.v1.ClientModConstructor;
+import fuzs.puzzleslib.common.api.client.core.v1.context.ParticleProvidersContext;
+import fuzs.puzzleslib.common.api.client.core.v1.context.ResourcePackReloadListenersContext;
 
 public class FallingLeavesPlusClient implements ClientModConstructor {
 

@@ -1,7 +1,7 @@
 package fuzs.fallingleavesplus.neoforge;
 
 import fuzs.fallingleavesplus.FallingLeavesPlus;
-import fuzs.puzzleslib.api.core.v1.ModConstructor;
+import fuzs.puzzleslib.common.api.core.v1.ModConstructor;
 import net.neoforged.fml.common.Mod;
 
 @Mod(FallingLeavesPlus.MOD_ID)

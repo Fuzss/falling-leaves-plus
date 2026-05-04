@@ -3,7 +3,7 @@ package fuzs.fallingleavesplus.data.client;
 import fuzs.fallingleavesplus.FallingLeavesPlus;
 import fuzs.fallingleavesplus.client.particle.settings.*;
 import net.minecraft.resources.Identifier;
-import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
+import fuzs.puzzleslib.common.api.data.v2.core.DataProviderContext;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
