@@ -1,9 +1,9 @@
 package fuzs.fallingleavesplus.neoforge.client;
 
-import fuzs.fallingleavesplus.FallingLeavesPlus;
-import fuzs.fallingleavesplus.client.FallingLeavesPlusClient;
-import fuzs.fallingleavesplus.data.client.ModParticleProvider;
-import fuzs.fallingleavesplus.data.client.ModParticleSettingsProvider;
+import fuzs.fallingleavesplus.common.FallingLeavesPlus;
+import fuzs.fallingleavesplus.common.client.FallingLeavesPlusClient;
+import fuzs.fallingleavesplus.common.data.client.ModParticleProvider;
+import fuzs.fallingleavesplus.common.data.client.ModParticleSettingsProvider;
 import fuzs.puzzleslib.common.api.client.core.v1.ClientModConstructor;
 import fuzs.puzzleslib.neoforge.api.data.v2.core.DataProviderHelper;
 import net.neoforged.api.distmarker.Dist;
