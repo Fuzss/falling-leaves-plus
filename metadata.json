@@ -8,7 +8,7 @@
         "authors": [
             "Fuzs"
         ],
-        "description": "Example description.",
+        "description": "Beautiful tree-specific falling leaves with branches, acorns, cones, and more.",
         "license": "MPL-2.0"
     },
     "dependencies": [
@@ -37,8 +37,18 @@
     ],
     "links": [
         {
+            "name": "curseforge",
+            "slug": "falling-leaves-plus",
+            "id": "1577351"
+        },
+        {
             "name": "github",
             "slug": "falling-leaves-plus"
+        },
+        {
+            "name": "modrinth",
+            "slug": "falling-leaves-plus",
+            "id": "PZyzzLjz"
         }
     ],
     "environments": {
