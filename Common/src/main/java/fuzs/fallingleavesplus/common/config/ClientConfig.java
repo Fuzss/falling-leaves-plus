@@ -1,14 +1,14 @@
 package fuzs.fallingleavesplus.common.config;
 
 import fuzs.fallingleavesplus.common.client.particle.settings.DecayMode;
-import fuzs.puzzleslib.common.api.config.v3.Config;
-import fuzs.puzzleslib.common.api.config.v3.ConfigCore;
-import fuzs.puzzleslib.common.api.config.v3.serialization.ConfigDataSet;
-import fuzs.puzzleslib.common.api.config.v3.serialization.KeyedValueProvider;
+import fuzs.puzzleslib.api.config.v3.Config;
+import fuzs.puzzleslib.api.config.v3.ConfigCore;
+import fuzs.puzzleslib.api.config.v3.serialization.ConfigDataSet;
+import fuzs.puzzleslib.api.config.v3.serialization.KeyedValueProvider;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.references.BlockItemIds;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 import java.util.List;
 
@@ -23,7 +23,9 @@ public class ClientConfig implements ConfigCore {
             "Leaves blocks that will spawn custom leaf particles underneath, vanilla particles are replaced.",
             ConfigDataSet.CONFIG_DESCRIPTION
     })
-    List<String> defaultLeavesBlocksRaw = KeyedValueProvider.<Block>tags().addTag(BlockTags.LEAVES).asStringList();
+    List<String> defaultLeavesBlocksRaw = KeyedValueProvider.tags(Registries.BLOCK)
+            .addTag(BlockTags.LEAVES)
+            .asStringList();
     @Config(category = CATEGORY_GENERAL, description = "Use block particles as leaves instead of leaf sprites.")
     public boolean blockParticles = false;
     @Config(category = CATEGORY_GENERAL,
@@ -37,8 +39,8 @@ public class ClientConfig implements ConfigCore {
             "Blocks to consider as snow when deciding to spawn snowflakes instead of leaf particles.",
             ConfigDataSet.CONFIG_DESCRIPTION
     })
-    List<String> snowflakesSpawningBlocksRaw = KeyedValueProvider.<Block>tags()
-            .add(BlockItemIds.SNOW.block())
+    List<String> snowflakesSpawningBlocksRaw = KeyedValueProvider.tags(Registries.BLOCK)
+            .addKey(Blocks.SNOW.builtInRegistryHolder().key())
             .asStringList();
 
     public ConfigDataSet<Block> defaultLeavesBlocks;

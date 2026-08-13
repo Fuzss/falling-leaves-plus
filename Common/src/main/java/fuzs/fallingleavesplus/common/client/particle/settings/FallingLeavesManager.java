@@ -4,23 +4,24 @@ import fuzs.fallingleavesplus.common.FallingLeavesPlus;
 import fuzs.fallingleavesplus.common.config.ClientConfig;
 import fuzs.fallingleavesplus.common.core.particles.FallingLeavesParticleOption;
 import fuzs.fallingleavesplus.common.init.ModRegistry;
+import fuzs.puzzleslib.api.resources.v1.SimpleJsonResourceReloadListener;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.FileToIdConverter;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jspecify.annotations.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.IdentityHashMap;
@@ -39,16 +40,16 @@ public final class FallingLeavesManager extends SimpleJsonResourceReloadListener
         super(ParticleSettings.CODEC, ASSET_LISTER);
     }
 
-    public static void onAddResourcePackReloadListeners(BiConsumer<Identifier, PreparableReloadListener> consumer) {
+    public static void onAddResourcePackReloadListeners(BiConsumer<ResourceLocation, PreparableReloadListener> consumer) {
         consumer.accept(FallingLeavesPlus.id("falling_leaves_manager"), instance = new FallingLeavesManager());
     }
 
     @Override
-    protected void apply(Map<Identifier, ParticleSettings> object, ResourceManager resourceManager, ProfilerFiller profiler) {
+    protected void apply(Map<ResourceLocation, ParticleSettings> object, ResourceManager resourceManager, ProfilerFiller profiler) {
         IdentityHashMap<Block, ParticleSettings> map = new IdentityHashMap<>();
-        for (Map.Entry<Identifier, ParticleSettings> entry : object.entrySet()) {
+        for (Map.Entry<ResourceLocation, ParticleSettings> entry : object.entrySet()) {
             if (BuiltInRegistries.BLOCK.containsKey(entry.getKey())) {
-                map.put(BuiltInRegistries.BLOCK.getValue(entry.getKey()), entry.getValue());
+                map.put(BuiltInRegistries.BLOCK.get(entry.getKey()), entry.getValue());
             }
         }
 
@@ -94,7 +95,7 @@ public final class FallingLeavesManager extends SimpleJsonResourceReloadListener
         ParticleType<FallingLeavesParticleOption> particleType = pickParticleType(false);
         return new FallingLeavesParticleOption(particleType,
                 blockState,
-                level.getClientLeafTintColor(blockPos));
+                Minecraft.getInstance().getBlockColors().getColor(blockState, level, blockPos, 0));
     }
 
     private static ParticleType<FallingLeavesParticleOption> pickParticleType(boolean isSnowflake) {

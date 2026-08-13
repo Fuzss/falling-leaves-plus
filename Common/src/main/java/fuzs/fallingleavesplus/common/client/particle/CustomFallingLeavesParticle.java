@@ -1,13 +1,13 @@
 package fuzs.fallingleavesplus.common.client.particle;
 
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import fuzs.fallingleavesplus.common.client.particle.settings.AdditionalSettings;
 import fuzs.fallingleavesplus.common.client.particle.settings.DecayMode;
 import fuzs.fallingleavesplus.common.client.particle.settings.VanillaSettings;
 import fuzs.fallingleavesplus.common.client.world.phys.shapes.ParticleCollisionHelper;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.FallingLeavesParticle;
-import net.minecraft.client.renderer.state.level.QuadParticleRenderState;
+import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
@@ -42,8 +42,8 @@ public class CustomFallingLeavesParticle extends FallingLeavesParticle {
     }
 
     @Override
-    public Layer getLayer() {
-        return Layer.TRANSLUCENT;
+    public ParticleRenderType getRenderType() {
+        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
     }
 
     public void scaleSize(float scaleAmount) {
@@ -52,9 +52,9 @@ public class CustomFallingLeavesParticle extends FallingLeavesParticle {
     }
 
     @Override
-    public void extract(QuadParticleRenderState state, Camera camera, float partialTick) {
-        this.setAlpha(this.lifetimeAlpha.currentAlphaForAge(this.age, this.lifetime, partialTick));
-        super.extract(state, camera, partialTick);
+    public void render(VertexConsumer buffer, Camera camera, float partialTicks) {
+        this.setAlpha(this.lifetimeAlpha.currentAlphaForAge(this.age, this.lifetime, partialTicks));
+        super.render(buffer, camera, partialTicks);
     }
 
     @Override

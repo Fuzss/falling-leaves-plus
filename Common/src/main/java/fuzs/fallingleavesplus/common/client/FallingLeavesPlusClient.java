@@ -4,11 +4,20 @@ import fuzs.fallingleavesplus.common.client.particle.AbstractFallingLeavesPartic
 import fuzs.fallingleavesplus.common.client.particle.TerrainFallingLeavesParticle;
 import fuzs.fallingleavesplus.common.client.particle.settings.FallingLeavesManager;
 import fuzs.fallingleavesplus.common.init.ModRegistry;
-import fuzs.puzzleslib.common.api.client.core.v1.ClientModConstructor;
-import fuzs.puzzleslib.common.api.client.core.v1.context.ParticleProvidersContext;
-import fuzs.puzzleslib.common.api.client.core.v1.context.ResourcePackReloadListenersContext;
+import fuzs.puzzleslib.api.client.core.v1.ClientModConstructor;
+import fuzs.puzzleslib.api.client.core.v1.context.ParticleProvidersContext;
+import fuzs.puzzleslib.api.client.event.v1.AddResourcePackReloadListenersCallback;
 
 public class FallingLeavesPlusClient implements ClientModConstructor {
+
+    @Override
+    public void onConstructMod() {
+        registerEventHandlers();
+    }
+
+    private static void registerEventHandlers() {
+        AddResourcePackReloadListenersCallback.EVENT.register(FallingLeavesManager::onAddResourcePackReloadListeners);
+    }
 
     @Override
     public void onRegisterParticleProviders(ParticleProvidersContext context) {
@@ -18,10 +27,5 @@ public class FallingLeavesPlusClient implements ClientModConstructor {
                 new AbstractFallingLeavesParticleProvider.LeavesProvider());
         context.registerParticleProvider(ModRegistry.FALLING_SNOWFLAKE_PARTICLE_TYPE.value(),
                 AbstractFallingLeavesParticleProvider.SnowflakeProvider::new);
-    }
-
-    @Override
-    public void onAddResourcePackReloadListeners(ResourcePackReloadListenersContext context) {
-        FallingLeavesManager.onAddResourcePackReloadListeners(context::registerReloadListener);
     }
 }

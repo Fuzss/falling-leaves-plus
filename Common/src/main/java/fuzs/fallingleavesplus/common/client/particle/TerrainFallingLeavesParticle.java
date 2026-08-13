@@ -11,28 +11,23 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SingleQuadParticle;
+import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.sprite.Material;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jspecify.annotations.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @see net.minecraft.client.particle.TerrainParticle
  */
 public class TerrainFallingLeavesParticle extends CustomFallingLeavesParticle {
-    private final SingleQuadParticle.Layer layer;
     private final float uo;
     private final float vo;
 
     public TerrainFallingLeavesParticle(ClientLevel level, double x, double y, double z, TextureAtlasSprite sprite, BlockState blockState, VanillaSettings vanillaSettings, AdditionalSettings additionalSettings) {
         super(level, x, y, z, sprite, vanillaSettings, additionalSettings);
-        Material.Baked particleMaterial = Minecraft.getInstance()
-                .getModelManager()
-                .getBlockStateModelSet()
-                .getParticleMaterial(blockState);
-        this.setSprite(particleMaterial.sprite());
+        this.setSprite(Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(blockState));
         this.rCol = 0.6F;
         this.gCol = 0.6F;
         this.bCol = 0.6F;
@@ -43,12 +38,11 @@ public class TerrainFallingLeavesParticle extends CustomFallingLeavesParticle {
 
         this.uo = this.random.nextFloat() * 3.0F;
         this.vo = this.random.nextFloat() * 3.0F;
-        this.layer = SingleQuadParticle.Layer.bySprite(this.sprite);
     }
 
     @Override
-    public SingleQuadParticle.Layer getLayer() {
-        return this.layer;
+    public ParticleRenderType getRenderType() {
+        return ParticleRenderType.TERRAIN_SHEET;
     }
 
     @Override
@@ -73,14 +67,15 @@ public class TerrainFallingLeavesParticle extends CustomFallingLeavesParticle {
 
     public static class Provider implements ParticleProvider<FallingLeavesParticleOption> {
         @Override
-        public @Nullable Particle createParticle(FallingLeavesParticleOption particleOptions, ClientLevel clientLevel, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomSource random) {
+        public @Nullable Particle createParticle(FallingLeavesParticleOption particleOptions, ClientLevel clientLevel, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             if (!particleOptions.blockState().isAir() && particleOptions.blockState().shouldSpawnTerrainParticles()) {
                 ParticleSettings particleSettings = FallingLeavesManager.getParticleSettings(particleOptions.blockState());
                 SingleQuadParticle particle = new TerrainFallingLeavesParticle(clientLevel,
                         x,
                         y,
                         z,
-                        AbstractFallingLeavesParticleProvider.getParticleTextureAtlas().missingSprite(),
+                        AbstractFallingLeavesParticleProvider.getParticleTextureAtlas()
+                                .getSprite(MissingTextureAtlasSprite.getLocation()),
                         particleOptions.blockState(),
                         particleSettings.vanillaSettings(),
                         particleSettings.additionalSettings());

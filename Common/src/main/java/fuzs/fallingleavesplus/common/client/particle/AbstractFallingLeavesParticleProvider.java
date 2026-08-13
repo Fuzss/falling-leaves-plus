@@ -5,6 +5,7 @@ import fuzs.fallingleavesplus.common.client.particle.settings.ParticleSettings;
 import fuzs.fallingleavesplus.common.client.particle.settings.ParticleTexture;
 import fuzs.fallingleavesplus.common.client.particle.settings.VanillaSettings;
 import fuzs.fallingleavesplus.common.core.particles.FallingLeavesParticleOption;
+import fuzs.puzzleslib.api.util.v1.ARGB;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
@@ -12,7 +13,6 @@ import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.util.ARGB;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.Unit;
 import net.minecraft.world.level.block.state.BlockState;
@@ -22,7 +22,8 @@ import java.util.List;
 public abstract class AbstractFallingLeavesParticleProvider<T> implements ParticleProvider<FallingLeavesParticleOption> {
 
     @Override
-    public Particle createParticle(FallingLeavesParticleOption particleOptions, ClientLevel clientLevel, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomSource randomSource) {
+    public Particle createParticle(FallingLeavesParticleOption particleOptions, ClientLevel clientLevel, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        RandomSource randomSource = RandomSource.create();
         ParticleSettings particleSettings = this.getParticleSettings(particleOptions.blockState());
         T particleTexture = this.pickParticleTexture(particleSettings, randomSource);
         TextureAtlasSprite textureAtlasSprite = this.pickSprite(particleTexture, randomSource);

@@ -8,6 +8,6 @@ dependencies {
 
 multiloader {
     mixins {
-        clientMixin("ClientLevelMixin", "LeavesBlockMixin")
+        clientMixin("CherryLeavesBlockMixin", "ClientLevelMixin")
     }
 }

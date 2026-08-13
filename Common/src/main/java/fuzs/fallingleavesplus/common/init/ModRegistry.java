@@ -2,7 +2,7 @@ package fuzs.fallingleavesplus.common.init;
 
 import fuzs.fallingleavesplus.common.FallingLeavesPlus;
 import fuzs.fallingleavesplus.common.core.particles.FallingLeavesParticleOption;
-import fuzs.puzzleslib.common.api.init.v3.registry.RegistryManager;
+import fuzs.puzzleslib.api.init.v3.registry.RegistryManager;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleType;
 
