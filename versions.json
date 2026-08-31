@@ -1,8 +1,15 @@
 {
   "branches": {
+    "1.21.1": "maintained",
     "1.21.11": "archived",
     "26.1.x": "maintained",
-    "26.2.x": "primary",
-    "1.21.1": "maintained"
+    "26.2.x": "primary"
+  },
+  "properties": {
+    "distributions.curseforge.id": "1577351",
+    "distributions.curseforge.slug": "falling-leaves-plus",
+    "distributions.github.slug": "falling-leaves-plus",
+    "distributions.modrinth.id": "PZyzzLjz",
+    "distributions.modrinth.slug": "falling-leaves-plus"
   }
 }
