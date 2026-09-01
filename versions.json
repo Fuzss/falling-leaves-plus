@@ -5,11 +5,17 @@
     "26.1.x": "maintained",
     "26.2.x": "primary"
   },
-  "properties": {
-    "distributions.curseforge.id": "1577351",
-    "distributions.curseforge.slug": "falling-leaves-plus",
-    "distributions.github.slug": "falling-leaves-plus",
-    "distributions.modrinth.id": "PZyzzLjz",
-    "distributions.modrinth.slug": "falling-leaves-plus"
+  "distributions": {
+    "curseforge": {
+      "id": "1577351",
+      "slug": "falling-leaves-plus"
+    },
+    "github": {
+      "slug": "falling-leaves-plus"
+    },
+    "modrinth": {
+      "id": "PZyzzLjz",
+      "slug": "falling-leaves-plus"
+    }
   }
 }
