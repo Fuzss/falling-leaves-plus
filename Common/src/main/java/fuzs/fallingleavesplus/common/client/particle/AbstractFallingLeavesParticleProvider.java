@@ -5,6 +5,7 @@ import fuzs.fallingleavesplus.common.client.particle.settings.ParticleSettings;
 import fuzs.fallingleavesplus.common.client.particle.settings.ParticleTexture;
 import fuzs.fallingleavesplus.common.client.particle.settings.VanillaSettings;
 import fuzs.fallingleavesplus.common.core.particles.FallingLeavesParticleOption;
+import fuzs.puzzleslib.api.client.particle.v1.ParticleProvider;
 import fuzs.puzzleslib.api.util.v1.ARGB;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
