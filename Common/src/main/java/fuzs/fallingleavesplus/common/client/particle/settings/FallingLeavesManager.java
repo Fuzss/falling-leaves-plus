@@ -18,6 +18,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.profiling.ProfilerFiller;
+import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -93,9 +94,10 @@ public final class FallingLeavesManager extends SimpleJsonResourceReloadListener
         }
 
         ParticleType<FallingLeavesParticleOption> particleType = pickParticleType(false);
+        int tintColor = Minecraft.getInstance().getBlockColors().getColor(blockState, level, blockPos, 0);
         return new FallingLeavesParticleOption(particleType,
                 blockState,
-                Minecraft.getInstance().getBlockColors().getColor(blockState, level, blockPos, 0));
+                tintColor == -1 ? FoliageColor.getDefaultColor() : tintColor);
     }
 
     private static ParticleType<FallingLeavesParticleOption> pickParticleType(boolean isSnowflake) {
