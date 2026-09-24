@@ -1,0 +1,14 @@
+{
+  "flow_away": false,
+  "gravity_multiplier": 0.07,
+  "initial_falling_speed": 0.021,
+  "leaf_particle_chance": 0.01,
+  "swirl_around": true,
+  "textures": [
+    "minecraft:orange_poplar_1",
+    "minecraft:orange_poplar_2",
+    "minecraft:orange_poplar_3",
+    "minecraft:orange_poplar_4"
+  ],
+  "wind_strength": 10.0
+}
