@@ -5,7 +5,7 @@ import fuzs.fallingleavesplus.common.client.FallingLeavesPlusClient;
 import fuzs.fallingleavesplus.common.data.client.ModParticleProvider;
 import fuzs.fallingleavesplus.common.data.client.ModParticleSettingsProvider;
 import fuzs.puzzleslib.common.api.client.core.v1.ClientModConstructor;
-import fuzs.puzzleslib.neoforge.api.data.v2.core.DataProviderHelper;
+import fuzs.puzzleslib.neoforge.api.data.v3.core.DataProviderBuilder;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.common.Mod;
 
@@ -14,8 +14,7 @@ public class FallingLeavesPlusNeoForgeClient {
 
     public FallingLeavesPlusNeoForgeClient() {
         ClientModConstructor.construct(FallingLeavesPlus.MOD_ID, FallingLeavesPlusClient::new);
-        DataProviderHelper.registerDataProviders(FallingLeavesPlus.MOD_ID,
-                ModParticleProvider::new,
-                ModParticleSettingsProvider::new);
+        DataProviderBuilder.of(FallingLeavesPlus.MOD_ID)
+                .addProvider(ModParticleProvider::new, ModParticleSettingsProvider::new);
     }
 }

@@ -2,7 +2,7 @@ package fuzs.fallingleavesplus.common.data.client;
 
 import fuzs.fallingleavesplus.common.FallingLeavesPlus;
 import fuzs.fallingleavesplus.common.client.particle.settings.*;
-import fuzs.puzzleslib.common.api.data.v2.core.DataProviderContext;
+import fuzs.puzzleslib.common.api.data.v3.core.DataProviderContext;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
@@ -25,6 +25,10 @@ public class ModParticleSettingsProvider implements DataProvider {
      * @see net.minecraft.client.particle.FallingLeavesParticle.PaleOakProvider
      */
     private static final VanillaSettings PALE_OAK_LEAVES = VanillaSettings.of(0.07F, 10.0F, true, false, 0.021F);
+    /**
+     * @see net.minecraft.client.particle.FallingLeavesParticle.PoplarProvider
+     */
+    private static final VanillaSettings POPLAR_LEAVES = VanillaSettings.of(0.07F, 10.0F, true, false, 0.021F);
     /**
      * @see Blocks#AZALEA_LEAVES
      * @see Blocks#FLOWERING_AZALEA_LEAVES
@@ -176,6 +180,24 @@ public class ModParticleSettingsProvider implements DataProvider {
             .biomeTint(Identifier.withDefaultNamespace("pale_oak_11"))
             .noTint(FallingLeavesPlus.id("pale_oak_branch"), LARGE_LEAF_SIZE)
             .build();
+    private static final List<ParticleTexture> RED_POPLAR_TEXTURES = ParticleTexture.builder()
+            .noTint(Identifier.withDefaultNamespace("red_poplar_1"))
+            .noTint(Identifier.withDefaultNamespace("red_poplar_2"))
+            .noTint(Identifier.withDefaultNamespace("red_poplar_3"))
+            .noTint(Identifier.withDefaultNamespace("red_poplar_4"))
+            .build();
+    private static final List<ParticleTexture> ORANGE_POPLAR_TEXTURES = ParticleTexture.builder()
+            .noTint(Identifier.withDefaultNamespace("orange_poplar_1"))
+            .noTint(Identifier.withDefaultNamespace("orange_poplar_2"))
+            .noTint(Identifier.withDefaultNamespace("orange_poplar_3"))
+            .noTint(Identifier.withDefaultNamespace("orange_poplar_4"))
+            .build();
+    private static final List<ParticleTexture> YELLOW_POPLAR_TEXTURES = ParticleTexture.builder()
+            .noTint(Identifier.withDefaultNamespace("yellow_poplar_1"))
+            .noTint(Identifier.withDefaultNamespace("yellow_poplar_2"))
+            .noTint(Identifier.withDefaultNamespace("yellow_poplar_3"))
+            .noTint(Identifier.withDefaultNamespace("yellow_poplar_4"))
+            .build();
 
     private final Map<Identifier, ParticleSettings> values = new LinkedHashMap<>();
     private final PackOutput.PathProvider pathProvider;
@@ -228,6 +250,25 @@ public class ModParticleSettingsProvider implements DataProvider {
         // match vanilla spawn chance
         this.block(Blocks.PALE_OAK_LEAVES,
                 ParticleSettings.builder().setTextures(PALE_OAK_TEXTURES).setLeafParticleChance(0.02F).build());
+        // match vanilla spawn chance and settings
+        this.block(Blocks.RED_POPLAR_LEAVES,
+                ParticleSettings.builder()
+                        .setTextures(RED_POPLAR_TEXTURES)
+                        .setLeafParticleChance(0.01F)
+                        .setVanillaSettings(POPLAR_LEAVES)
+                        .build());
+        this.block(Blocks.ORANGE_POPLAR_LEAVES,
+                ParticleSettings.builder()
+                        .setTextures(ORANGE_POPLAR_TEXTURES)
+                        .setLeafParticleChance(0.01F)
+                        .setVanillaSettings(POPLAR_LEAVES)
+                        .build());
+        this.block(Blocks.YELLOW_POPLAR_LEAVES,
+                ParticleSettings.builder()
+                        .setTextures(YELLOW_POPLAR_TEXTURES)
+                        .setLeafParticleChance(0.01F)
+                        .setVanillaSettings(POPLAR_LEAVES)
+                        .build());
     }
 
     public final void block(Block block, ParticleSettings particleSettings) {
