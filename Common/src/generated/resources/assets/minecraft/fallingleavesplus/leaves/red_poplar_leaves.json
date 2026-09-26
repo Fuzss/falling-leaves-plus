@@ -8,7 +8,11 @@
     "minecraft:red_poplar_1",
     "minecraft:red_poplar_2",
     "minecraft:red_poplar_3",
-    "minecraft:red_poplar_4"
+    "minecraft:red_poplar_4",
+    {
+      "asset_id": "fallingleavesplus:poplar_branch",
+      "texture_scale": 1.4
+    }
   ],
   "wind_strength": 10.0
 }
