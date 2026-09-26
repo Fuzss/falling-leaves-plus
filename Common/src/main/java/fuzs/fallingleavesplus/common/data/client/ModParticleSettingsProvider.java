@@ -185,18 +185,21 @@ public class ModParticleSettingsProvider implements DataProvider {
             .noTint(Identifier.withDefaultNamespace("red_poplar_2"))
             .noTint(Identifier.withDefaultNamespace("red_poplar_3"))
             .noTint(Identifier.withDefaultNamespace("red_poplar_4"))
+            .noTint(FallingLeavesPlus.id("poplar_branch"), LARGE_LEAF_SIZE)
             .build();
     private static final List<ParticleTexture> ORANGE_POPLAR_TEXTURES = ParticleTexture.builder()
             .noTint(Identifier.withDefaultNamespace("orange_poplar_1"))
             .noTint(Identifier.withDefaultNamespace("orange_poplar_2"))
             .noTint(Identifier.withDefaultNamespace("orange_poplar_3"))
             .noTint(Identifier.withDefaultNamespace("orange_poplar_4"))
+            .noTint(FallingLeavesPlus.id("poplar_branch"), LARGE_LEAF_SIZE)
             .build();
     private static final List<ParticleTexture> YELLOW_POPLAR_TEXTURES = ParticleTexture.builder()
             .noTint(Identifier.withDefaultNamespace("yellow_poplar_1"))
             .noTint(Identifier.withDefaultNamespace("yellow_poplar_2"))
             .noTint(Identifier.withDefaultNamespace("yellow_poplar_3"))
             .noTint(Identifier.withDefaultNamespace("yellow_poplar_4"))
+            .noTint(FallingLeavesPlus.id("poplar_branch"), LARGE_LEAF_SIZE)
             .build();
 
     private final Map<Identifier, ParticleSettings> values = new LinkedHashMap<>();
